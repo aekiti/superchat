@@ -5,8 +5,10 @@ import Filter from './components/Filter'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import uuid from 'uuid/v4'
+import { initSdk } from './utils/aeternity'
 
 function App() {
+  initSdk()
   return (
     <div style={ aeppWrapper }>
       <Header key={ uuid() }/>

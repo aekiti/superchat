@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import KEYS from './../configs/keys'
 
 export class ToDo extends Component {
-
+    
     getDataId = (e) => {
         return e.target.getAttribute('data-id');
     }

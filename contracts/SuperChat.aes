@@ -1,0 +1,141 @@
+include "List.aes"
+payable contract SuperChat =
+
+  record user =
+    { name  : string,
+      about : string,
+      image : string,
+      owner : address }
+
+  record message =
+    { message   : string,
+      time      : int,
+      sender    : address,
+      seen      : bool }
+
+  record fund =
+    { sender      : address,
+      time        : int,
+      amount      : int,
+      description : string }
+
+  record state =
+    { profile       : map(address, user),
+      friends       : map(address, list(address)),
+      requests      : map(address, list(address)),
+      newest_friend : map(address, address),
+      messages      : map(address, map(address, list(message))),
+      funds         : map(address, map(address, list(fund))) }
+
+  stateful entrypoint init() : state =
+    { profile       = {},
+      friends       = {},
+      requests      = {},
+      newest_friend = {},
+      messages      = {},
+      funds         = {} }
+
+  function empty_profile() : user =
+    let empty_profile = { name = "", about = "", image = "", owner = Call.caller }
+    empty_profile
+
+  stateful entrypoint register_profile(name': string, about': string, image': string) : user =
+    let new_profile = { name = name', about = about', image = image', owner = Call.caller }
+    put(state{ profile[Call.caller] = new_profile })
+    new_profile
+
+  entrypoint get_profile() : user =
+    Map.lookup_default(Call.caller, state.profile, empty_profile())
+
+  entrypoint get_all_profile() : map(address, user) = state.profile
+
+  stateful entrypoint send_friend_request(friends_address: address) : list(address) =
+    let empty_address_list : list(address) = [Call.caller]
+    switch(Map.lookup(friends_address, state.requests))
+      None =>   only_one_friend_request(friends_address, empty_address_list)
+      Some(x) => modify_friends_request(x, empty_address_list, friends_address)
+
+  stateful function modify_friends_request(old_list: list(address), new_friend_list: list(address), friends_address: address) : list(address) =
+    let new_list = new_friend_list ++ old_list
+    put(state{ requests[friends_address] = new_list })
+    new_list
+
+  stateful function only_one_friend_request(friends_address: address, new_friend_list: list(address)) : list(address) =
+    put(state{ requests[friends_address] = new_friend_list })
+    new_friend_list
+
+  entrypoint get_friend_request() : list(user) =
+    let friends_request = List.map((request) => Map.lookup_default(request, state.profile, empty_profile()), Map.lookup_default(Call.caller, state.requests, []))
+    friends_request
+
+  stateful entrypoint reject_friend_request(new_friends_address: address) : list(address) =
+    let friend_request_list = Map.lookup_default(Call.caller, state.requests, [])
+    let new_friend_request_list = List.filter((request) => request != new_friends_address, friend_request_list)
+    put(state{ requests[Call.caller] = new_friend_request_list })
+    new_friend_request_list
+
+  stateful entrypoint accept_friend_request(new_friends_address: address) : unit =
+    let friend_request_list = Map.lookup_default(Call.caller, state.requests, [])
+    let new_friend_request_list = List.filter((request) => request != new_friends_address, friend_request_list)
+
+    let friends_list = Map.lookup_default(Call.caller, state.friends, [])
+    let request_senders_friend_list = Map.lookup_default(new_friends_address, state.friends, [])
+    let new_request_senders_friend_list = Call.caller::request_senders_friend_list
+    let new_friends_list = new_friends_address::friends_list
+    let new_friendsMap = state.friends{ [Call.caller] = new_friends_list, [new_friends_address] = new_request_senders_friend_list }
+    put(state{ friends = new_friendsMap, requests[Call.caller] = new_friend_request_list })
+
+  entrypoint get_friends() : list(user) =
+    let friends = List.map((friend) => Map.lookup_default(friend, state.profile, empty_profile()), Map.lookup_default(Call.caller, state.friends, []))
+    friends
+
+  stateful entrypoint send_message(receiver: address, message': string) : unit =
+    let new_message = { message = message', time = Chain.timestamp, sender = Call.caller, seen = false }
+    let old_state_senders_messages = Map.lookup_default(Call.caller, state.messages, {})
+    let old_state_receiver_messages = Map.lookup_default(receiver, state.messages, {})
+
+    let old_single_receiver_messages = Map.lookup_default(Call.caller, old_state_receiver_messages, [])
+    let old_single_sender_messages = Map.lookup_default(receiver, old_state_senders_messages, [])
+
+    let new_single_receiver_messages = new_message::old_single_receiver_messages
+    let new_single_sender_messages = new_message::old_single_sender_messages
+
+    let new_state_senders_message = old_state_senders_messages{ [receiver] = new_single_sender_messages }
+    let new_state_receivers_message = old_state_receiver_messages{ [Call.caller] = new_single_receiver_messages }
+
+    let new_updated_state = state.messages{ [Call.caller] = new_state_senders_message, [receiver] = new_state_receivers_message }
+    put(state{messages = new_updated_state})
+
+  entrypoint get_caller_messages() : map(address, list(message)) =
+    Map.lookup_default(Call.caller, state.messages, {})
+
+  entrypoint get_caller_friend_messages(friend_address: address) : list(message) =
+    let all_messages = get_caller_messages()
+    let friend_messages = Map.lookup_default(friend_address, all_messages, [])
+    friend_messages
+
+  payable stateful entrypoint send_fund(receiver: address, description': string) : unit =
+    let new_fund = { sender = Call.caller, time = Chain.timestamp, amount = Call.value, description = description' }
+    let old_state_senders_funds = Map.lookup_default(Call.caller, state.funds, {})
+    let old_state_receiver_funds = Map.lookup_default(receiver, state.funds, {})
+
+    let old_single_receiver_funds = Map.lookup_default(Call.caller, old_state_receiver_funds, [])
+    let old_single_sender_funds = Map.lookup_default(receiver, old_state_senders_funds, [])
+
+    let new_single_receiver_funds = new_fund::old_single_receiver_funds
+    let new_single_sender_funds = new_fund::old_single_sender_funds
+
+    let new_state_senders_fund = old_state_senders_funds{ [receiver] = new_single_sender_funds }
+    let new_state_receivers_fund = old_state_receiver_funds{ [Call.caller] = new_single_receiver_funds }
+
+    let new_updated_state = state.funds{ [Call.caller] = new_state_senders_fund, [receiver] = new_state_receivers_fund }
+    Chain.spend(receiver, Call.value)
+    put(state{ funds = new_updated_state })
+
+  entrypoint get_caller_funds() : map(address, list(fund)) =
+    Map.lookup_default(Call.caller, state.funds, {})
+
+  entrypoint get_caller_friend_fund(friend_address: address) : list(fund) =
+    let all_funds = get_caller_funds()
+    let friend_fund = Map.lookup_default(friend_address, all_funds, [])
+    friend_fund

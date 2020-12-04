@@ -11,7 +11,7 @@ export class ToDoManager extends Component {
 
     async getReverseWindow() {
         const iframe = document.createElement('iframe')
-        iframe.src = prompt('Enter wallet URL', 'http://localhost:8081')
+        iframe.src = 'http://localhost:8081'
         iframe.style.display = 'none'
         document.body.appendChild(iframe)
         await new Promise(resolve => {
