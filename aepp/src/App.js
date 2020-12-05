@@ -1,14 +1,20 @@
 import React from "react";
 import "./App.css";
-import FooterNav from "./components/FooterNav.js";
-import MessageHeader from "./components/MessageHeader";
+import logo from "./assets/logo-small.png";
+import FooterNav from "./components/FooterNav";
+import ProfileBoard from "./components/ProfileBoard";
 // import { initSdk } from "./utils/aeternity";
 
 const App = () => {
   // initSdk();
   return (
     <>
-      <MessageHeader /> <FooterNav />
+      <ProfileBoard
+        avatar={logo}
+        username="YinkaEnochz"
+        lastMessage="When are you coming home? We have a party to attend by evening. Do you still remember, darling?"
+      />
+      <FooterNav />
     </>
   );
 };
