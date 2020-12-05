@@ -1,0 +1,29 @@
+@import "../_variable";
+
+.header {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	box-shadow: 0 2px 3px rgba(100, 100, 100, 0.6);
+	display: flex;
+	align-items: center;
+	background: $bgColor;
+}
+
+.avatar {
+	background: #fff;
+	border-radius: 100%;
+	box-shadow: 0 0 4px rgba(200, 200, 200, 0.9);
+	width: 3rem;
+	height: 3rem;
+	overflow: hidden;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+}
+.username {
+}
