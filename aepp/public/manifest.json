@@ -1,15 +1,30 @@
 {
   "short_name": "SuperChat",
   "name": "Superhero Defi Chat",
+  "aeternity_network_ids": "ae_uat",
+  "description": "A decentralized finance chat æpp on the Superhero platform",
+  "category": "utilities",
+  "author_url": "https://aekiti.com",
+  "author": "ækiti æmbassy",
+  "theme_color": "#67f7b8",
+  "background_color": "#1c1c24",
+  "display": "standalone",
+  "start_url": ".",
   "icons": [
     {
       "src": "favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "logo192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "logo512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  ]
 }
