@@ -1,16 +1,20 @@
-import { MemoryAccount, Node, Universal } from "@aeternity/aepp-sdk/es";
+import { Node, RpcAepp } from "@aeternity/aepp-sdk/es";
 import Detector from "@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/wallet-detector";
 import BrowserWindowMessageConnection from "@aeternity/aepp-sdk/es/utils/aepp-wallet-communication/connection/browser-window-message";
 import profileContractDetails from "../configs/profileContractDetails";
 import friendContractDetails from "../configs/friendContractDetails";
 import messageContractDetails from "../configs/messageContractDetails";
 import fundContractDetails from "../configs/fundContractDetails";
+import adminContractDetails from "../configs/adminContractDetails";
 import nodeConfig from "../configs/nodeConfig";
-import keyPair from "../configs/keyPair";
 
 let sdk,
   contractInstances = {};
-let profileContract, friendContract, messageContract, fundContract;
+let profileContract,
+  friendContract,
+  messageContract,
+  fundContract,
+  adminContract;
 
 const initSuperchatContractIfNeeded = async () => {
   if (!sdk) throw new Error("Init sdk first");
@@ -50,11 +54,20 @@ const initSuperchatContractIfNeeded = async () => {
     );
     contractInstances.fundInstance = fundContract;
   }
+  if (!adminContract) {
+    adminContract = await sdk.getContractInstance(
+      adminContractDetails.contractSource,
+      {
+        contractAddress: adminContractDetails.contractAddress,
+      }
+    );
+    contractInstances.adminInstance = adminContract;
+  }
 };
 
 export const initSdk = async () => {
   try {
-    const common = {
+    const node = {
       nodes: [
         {
           name: "node",
@@ -66,23 +79,16 @@ export const initSdk = async () => {
       ],
       compilerUrl: nodeConfig.compilerUrl,
     };
-    sdk = await Universal({
-      ...common,
-      accounts: [
-        MemoryAccount({
-          keypair: {
-            secretKey: keyPair.privateKey,
-            publicKey: keyPair.publicKey,
-          },
-        }),
-      ],
-      address: keyPair.publicKey,
+    sdk = await RpcAepp({
+      ...node,
+      name: "superchat",
+      onDisconnect() {
+        // store.commit('resetState');
+      },
     });
-    sdk.rpcClient = {
-      getCurrentAccount: async () => await scanForWallets(),
-    };
+    const userAddress = await scanForWallets();
     await initSuperchatContractIfNeeded();
-    return contractInstances;
+    return { contractInstances, sdk, userAddress };
   } catch (err) {
     console.error(err);
     return;

@@ -7,7 +7,7 @@ import { initSdk } from "./utils/aeternity";
 
 const App = () => {
   (async () => {
-    let k = await initSdk();
+    let { contractInstances: k } = await initSdk();
     console.log(k);
 
     let resp = (await k.profileInstance.methods.get_profile()).decodedResult;
