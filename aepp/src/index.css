@@ -29,7 +29,6 @@ body {
 	overflow: relative;
 }
 
-code {
-	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-		monospace;
+.container {
+	/*background: red;*/
 }
