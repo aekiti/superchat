@@ -8,32 +8,39 @@ const deploy = async (network, privateKey, compiler, networkId) => {
   let friendContract = await deployer.deploy("./contracts/SuperChatFriend.aes", [profileContract.address])
   let messageContract = await deployer.deploy("./contracts/SuperChatMessage.aes")
   let fundContract = await deployer.deploy("./contracts/SuperChatFund.aes")
+  let adminContract = await deployer.deploy("./contracts/SuperChatAdmin.aes", [profileContract.address, friendContract.address, messageContract.address, fundContract.address])
 
   fs.writeFileSync(__dirname + "/../integrations/contractData.md", `# SuperChat Contracts
 
 ## ProfileContract
 - Address: ${profileContract.address}
-- Owner: ${friendContract.owner}
-- Transaction: ${messageContract.transaction}
-- CreatedAt: ${fundContract.createdAt}
+- Owner: ${profileContract.owner}
+- Transaction: ${profileContract.transaction}
+- CreatedAt: ${profileContract.createdAt}
 
 ## FriendContract
 - Address: ${friendContract.address}
 - Owner: ${friendContract.owner}
-- Transaction: ${messageContract.transaction}
-- CreatedAt: ${fundContract.createdAt}
+- Transaction: ${friendContract.transaction}
+- CreatedAt: ${friendContract.createdAt}
 
 ## MessageContract
 - Address: ${messageContract.address}
-- Owner: ${friendContract.owner}
+- Owner: ${messageContract.owner}
 - Transaction: ${messageContract.transaction}
-- CreatedAt: ${fundContract.createdAt}
+- CreatedAt: ${messageContract.createdAt}
 
 ## FundContract
 - Address: ${fundContract.address}
-- Owner: ${friendContract.owner}
-- Transaction: ${messageContract.transaction}
-- CreatedAt: ${fundContract.createdAt}`)
+- Owner: ${fundContract.owner}
+- Transaction: ${fundContract.transaction}
+- CreatedAt: ${fundContract.createdAt}
+
+## AdminContract
+- Address: ${adminContract.address}
+- Owner: ${adminContract.owner}
+- Transaction: ${adminContract.transaction}
+- CreatedAt: ${adminContract.createdAt}`)
 };
 
 module.exports = {
