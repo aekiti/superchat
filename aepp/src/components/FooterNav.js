@@ -1,12 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styles from "./FooterNav.module.scss";
 
 const FooterNav = () => {
+	let history = useHistory();
 	return (
 		<section className={styles.stickyNav}>
 			<ul className={styles.navBody}>
-				<li className={styles.navItem}>
+				<li className={styles.navItem} onClick={() => history.goBack()}>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="22"

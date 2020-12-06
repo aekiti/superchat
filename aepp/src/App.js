@@ -20,7 +20,7 @@ const App = () => {
 
   return (
     <Router>
-      <>
+      <main>
         <Switch>
           <Route path="/" component={Home} exact />
           <Route path="/profile" component={Profile} />
@@ -29,7 +29,7 @@ const App = () => {
           <Route component={Home} />
         </Switch>
         <FooterNav />
-      </>
+      </main>
     </Router>
   );
 };
