@@ -3,10 +3,20 @@ import "./App.css";
 import logo from "./assets/logo-small.png";
 import FooterNav from "./components/FooterNav";
 import ProfileBoard from "./components/ProfileBoard";
-// import { initSdk } from "./utils/aeternity";
+import { initSdk } from "./utils/aeternity";
 
 const App = () => {
-  // initSdk();
+  (async () => {
+    let { contractInstances: k } = await initSdk();
+    console.log(k);
+
+    let resp = (await k.profileInstance.methods.get_profile()).decodedResult;
+    console.log(resp);
+
+    // Fetch user profile
+    // fetch user message list
+  })();
+
   return (
     <>
       <ProfileBoard
