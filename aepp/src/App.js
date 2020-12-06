@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 import logo from "./assets/logo-small.png";
-import FooterNav from "./components/FooterNav";
-import ProfileBoard from "./components/ProfileBoard";
+import Home from "./UI/HomePage.js";
+import Profile from "./UI/ProfilePage.js";
+import Search from "./UI/SearchPage.js";
+import Chat from "./UI/ChatPage.js";
+import FooterNav from "./components/FooterNav.js";
+import ProfileBoard from "./components/ProfileBoard.js";
 // import { initSdk } from "./utils/aeternity";
 
 const App = () => {
-  // initSdk();
+  // useEffect(() => {
+  //   (async () => {
+  //     let { contractInstances: k } = await initSdk();
+  //     console.log(k);
+  //   })();
+  // }, []);
+
   return (
-    <>
-      <ProfileBoard
-        avatar={logo}
-        username="YinkaEnochz"
-        lastMessage="When are you coming home? We have a party to attend by evening. Do you still remember, darling?"
-      />
-      <FooterNav />
-    </>
+    <Router>
+      <>
+        <Switch>
+          <Route path="/" component={Home} exact />
+          <Route path="/profile" component={Profile} />
+          <Route path="/search" component={Search} />
+          <Route path="/chat" component={Chat} />
+          <Route component={Home} />
+        </Switch>
+        <FooterNav />
+      </>
+    </Router>
   );
 };
 export default App;
