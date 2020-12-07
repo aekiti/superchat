@@ -77,7 +77,7 @@ const App = ({ state, dispatch }) => {
     <Router>
       <main>
         <AnimatePresence exitBeforeEnter>
-          <Switch>
+          <Switch key={window.location.pathname} location={window.location}>
             <Route path="/" component={Home} exact />
             <Route path="/profile" component={Profile} />
             <Route path="/search" component={Search} />

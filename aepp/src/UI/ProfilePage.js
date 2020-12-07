@@ -15,13 +15,11 @@ const ProfilePage = ({
 		<motion.section
 			className={styles.container}
 			exit={{ opacity: 0 }}
-			initial={{ opacity: 0, y: -50 }}
+			initial={{ opacity: 0 }}
 			animate={{
 				opacity: 1,
-				y: 0,
 				transition: {
-					delay: 3,
-					duration: 5,
+					duration: 0.5,
 				},
 			}}
 		>
