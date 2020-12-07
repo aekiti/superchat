@@ -20,7 +20,6 @@ const App = ({ state, addUserAddress, addSDK, addContractInstances }) => {
   useEffect(() => {
     (async () => {
       let resp = await initSdk();
-      console.log(resp);
       addUserAddress(resp.userAddress); // add user address to store
       addSDK(resp.sdk); // add the SDK object to store
       addContractInstances(resp.contractInstances); // add contract instances to store
