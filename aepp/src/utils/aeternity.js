@@ -9,12 +9,33 @@ import adminContractDetails from "../configs/adminContractDetails";
 import nodeConfig from "../configs/nodeConfig";
 
 let sdk,
-  contractInstances = {};
+  contractInstances = {},
+  userAddress;
 let profileContract,
   friendContract,
   messageContract,
   fundContract,
   adminContract;
+
+const scanForWallets = async () => {
+  if (!sdk) throw new Error("Init sdk first");
+  const scannerConnection = await BrowserWindowMessageConnection({
+    connectionInfo: { id: "spy" },
+  });
+  const detector = await Detector({ connection: scannerConnection });
+
+  return new Promise((resolve) => {
+    detector.scan(async ({ newWallet }) => {
+      if (!newWallet) return;
+      await sdk.connectToWallet(await newWallet.getConnection());
+      await sdk.subscribeAddress("subscribe", "current");
+      userAddress = sdk.rpcClient.getCurrentAccount();
+      if (!userAddress) return;
+      detector.stopScan();
+      resolve(userAddress);
+    });
+  });
+};
 
 const initSuperchatContractIfNeeded = async () => {
   if (!sdk) throw new Error("Init sdk first");
@@ -70,7 +91,7 @@ export const initSdk = async () => {
     const node = {
       nodes: [
         {
-          name: "node",
+          name: "superchat",
           instance: await Node({
             url: nodeConfig.url,
             internalUrl: nodeConfig.internalUrl,
@@ -86,30 +107,11 @@ export const initSdk = async () => {
         // store.commit('resetState');
       },
     });
-    const userAddress = await scanForWallets();
+    await scanForWallets();
     await initSuperchatContractIfNeeded();
-    return { contractInstances, sdk, userAddress };
+    return { sdk, contractInstances, userAddress };
   } catch (err) {
     console.error(err);
     return;
   }
-};
-
-const scanForWallets = async () => {
-  const scannerConnection = await BrowserWindowMessageConnection({
-    connectionInfo: { id: "spy" },
-  });
-  const detector = await Detector({ connection: scannerConnection });
-
-  return new Promise((resolve) => {
-    detector.scan(async ({ newWallet }) => {
-      if (!newWallet) return;
-      await sdk.connectToWallet(await newWallet.getConnection());
-      await sdk.subscribeAddress("subscribe", "current");
-      const address = sdk.rpcClient.getCurrentAccount();
-      if (!address) return;
-      detector.stopScan();
-      resolve(address);
-    });
-  });
 };

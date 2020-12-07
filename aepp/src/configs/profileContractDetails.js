@@ -1,5 +1,5 @@
 export default {
-  contractAddress: 'ct_kdQ8q2GJSu2TwDJN2JVwdr2ngD7z4o5bQKsobtd7w1sgNEcQq',
+  contractAddress: 'ct_MWoGSn98D85ASv1Qb2vDFTKtyVczVQsYdVAuTAueTDobdUFg4',
   contractSource: `contract SuperChatProfile =
 
   record user =
@@ -16,7 +16,7 @@ export default {
     { profile = {},
       admin   = Call.caller }
 
-  private function check_user(caller_address : address) : bool =
+  entrypoint check_user(caller_address : address) : bool =
     require(Map.member(caller_address, state.profile), "User Not Found")
     true
     
