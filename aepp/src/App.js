@@ -1,22 +1,40 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { connect } from "react-redux";
+import { initSdk } from "./utils/aeternity";
+import {
+  addUserAddress,
+  addContractInstances,
+  addSDK,
+} from "./actions/actionCreator.js";
+
 import "./App.css";
-import logo from "./assets/logo-small.png";
 import Home from "./UI/HomePage.js";
 import Profile from "./UI/ProfilePage.js";
 import Search from "./UI/SearchPage.js";
 import Chat from "./UI/ChatPage.js";
 import FooterNav from "./components/FooterNav.js";
-import ProfileBoard from "./components/ProfileBoard.js";
-// import { initSdk } from "./utils/aeternity";
+// import ProfileBoard from "./components/ProfileBoard.js";
 
-const App = () => {
-  // useEffect(() => {
-  //   (async () => {
-  //     let { contractInstances: k } = await initSdk();
-  //     console.log(k);
-  //   })();
-  // }, []);
+const App = ({ state, addUserAddress, addSDK, addContractInstances }) => {
+  useEffect(() => {
+    (async () => {
+      let resp = await initSdk();
+      console.log(resp);
+      addUserAddress(resp.userAddress); // add user address to store
+      addSDK(resp.sdk); // add the SDK object to store
+      addContractInstances(resp.contractInstances); // add contract instances to store
+
+      // Fetch user profile
+      let getProfile = (
+        await resp.contractInstances.profileInstance.methods.get_profile(
+          resp.userAddress
+        )
+      ).decodedResult;
+
+      console.log(getProfile);
+    })();
+  }, [addUserAddress, addSDK, addContractInstances]);
 
   return (
     <Router>
@@ -33,4 +51,14 @@ const App = () => {
     </Router>
   );
 };
-export default App;
+
+const mapStateToProps = (state) => ({ state });
+
+const mapDispatchToProps = (dispatch) => ({
+  addUserAddress: (addr) => dispatch(addUserAddress(addr)),
+  addContractInstances: (instances) =>
+    dispatch(addContractInstances(instances)),
+  addSDK: (sdk) => dispatch(addSDK(sdk)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
