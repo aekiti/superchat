@@ -1,5 +1,5 @@
 export default {
-  contractAddress: 'ct_U9Vayey6K1WkGrpsQoMTdQk2aJRK3KDLXxM2AQAEhBeDExygc',
+  contractAddress: 'ct_2NDhNfSfoyiZZVupXW38rxkFSAXBkZSRpoL9bV2qbJRE64q8B5',
   contractSource: `payable contract SuperChatFund =
 
   record fund =

@@ -14,7 +14,7 @@ contract SuperChatProfile =
     { profile = {},
       admin   = Call.caller }
 
-  entrypoint check_user(caller_address : address) : bool =
+  private function check_user(caller_address : address) : bool =
     require(Map.member(caller_address, state.profile), "User Not Found")
     true
     

@@ -1,5 +1,5 @@
 export default {
-  contractAddress: 'ct_2i1NbTrdpXC55gyUuya1NcYNcTpT299CUYfJUSUTS5MDLLXTyU',
+  contractAddress: 'ct_poYYaosW4CSPKgniPk512RuvY9JwkiN3LoHVm7UjfUJ5TS5uW',
   contractSource: `contract ProfileContract =
   record user = { name  : string, about : string, image : string, owner : address }
   entrypoint get_all_profile : (address) => map(address, user)
