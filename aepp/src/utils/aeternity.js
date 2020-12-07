@@ -9,8 +9,8 @@ import adminContractDetails from "../configs/adminContractDetails";
 import nodeConfig from "../configs/nodeConfig";
 
 let sdk,
-  contractInstances = {},
-  userAddress;
+  contractInstances = {};
+
 let profileContract,
   friendContract,
   messageContract,
@@ -29,7 +29,7 @@ const scanForWallets = async () => {
       if (!newWallet) return;
       await sdk.connectToWallet(await newWallet.getConnection());
       await sdk.subscribeAddress("subscribe", "current");
-      userAddress = sdk.rpcClient.getCurrentAccount();
+      let userAddress = sdk.rpcClient.getCurrentAccount();
       if (!userAddress) return;
       detector.stopScan();
       resolve(userAddress);
@@ -107,7 +107,7 @@ export const initSdk = async () => {
         // store.commit('resetState');
       },
     });
-    await scanForWallets();
+    let userAddress = await scanForWallets();
     await initSuperchatContractIfNeeded();
     return { sdk, contractInstances, userAddress };
   } catch (err) {
