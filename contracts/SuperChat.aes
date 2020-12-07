@@ -41,7 +41,7 @@ payable contract SuperChat =
     require(state.admin == caller_address, "Admin Only Function")
     true
   
-  private function check_user(caller_address : address) : bool =
+  entrypoint check_user(caller_address : address) : bool =
     require(Map.member(caller_address, state.profile), "User Not Found")
     true
 
