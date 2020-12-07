@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./SearchPage.module.scss";
+import { motion } from "framer-motion";
 
 const SearchPage = () => {
 	const runQuery = (query) => {
@@ -7,7 +8,17 @@ const SearchPage = () => {
 	};
 
 	return (
-		<section className={`container ${styles.container}`}>
+		<motion.section
+			className={`container ${styles.container}`}
+			exit={{ opacity: 0 }}
+			initial={{ opacity: 0 }}
+			animate={{
+				opacity: 1,
+				transition: {
+					duration: 0.5,
+				},
+			}}
+		>
 			<header className={styles.header}>
 				<input
 					type="search"
@@ -20,7 +31,7 @@ const SearchPage = () => {
 			</header>
 
 			<div></div>
-		</section>
+		</motion.section>
 	);
 };
 

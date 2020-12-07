@@ -6,6 +6,7 @@
   "description": "ækiti æmbassy Superhero chat project",
   "dependencies": {
     "@aeternity/aepp-sdk": "^7.7.0",
+    "framer-motion": "^2.9.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.0",

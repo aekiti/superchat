@@ -2,10 +2,12 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { initSdk } from "./utils/aeternity";
+import { AnimatePresence } from "framer-motion";
 import {
   addUserAddress,
   addContractInstances,
   addSDK,
+  addUserProfile,
 } from "./actions/actionCreator.js";
 
 import "./App.css";
@@ -16,13 +18,13 @@ import Chat from "./UI/ChatPage.js";
 import FooterNav from "./components/FooterNav.js";
 // import ProfileBoard from "./components/ProfileBoard.js";
 
-const App = ({ state, addUserAddress, addSDK, addContractInstances }) => {
+const App = ({ state, dispatch }) => {
   useEffect(() => {
     (async () => {
       let resp = await initSdk();
-      addUserAddress(resp.userAddress); // add user address to store
-      addSDK(resp.sdk); // add the SDK object to store
-      addContractInstances(resp.contractInstances); // add contract instances to store
+      dispatch(addUserAddress(resp.userAddress)); // add user address to store
+      dispatch(addSDK(resp.sdk)); // add the SDK object to store
+      dispatch(addContractInstances(resp.contractInstances)); // add contract instances to store
 
       // Fetch user profile
       let getProfile = (
@@ -31,21 +33,59 @@ const App = ({ state, addUserAddress, addSDK, addContractInstances }) => {
         )
       ).decodedResult;
 
-      console.log(getProfile);
+      // Empty profile
+      if (getProfile.name === "") {
+        try {
+          let getSHProfile = await fetch(
+            `https://raendom-backend.z52da5wt.xyz/profile/${resp.userAddress}`
+          );
+          let response = await getSHProfile.json();
+
+          // Save response to store
+          dispatch(
+            addUserProfile({
+              username: response.preferredChainName,
+              about: response.biography,
+              profileImg: `https://raendom-backend.z52da5wt.xyz${response.image}`,
+            })
+          );
+
+          // Save user profile to blockchain
+          await resp.contractInstances.profileInstance.methods.register_profile(
+            response.preferredChainName || "false",
+            response.biography || "false",
+            response.image || "false",
+            resp.userAddress
+          );
+        } catch (e) {
+          console.error("Error", e);
+        }
+      } else {
+        // Save response to store
+        dispatch(
+          addUserProfile({
+            username: getProfile.name,
+            about: getProfile.about,
+            profileImg: `https://raendom-backend.z52da5wt.xyz${getProfile.image}`,
+          })
+        );
+      }
     })();
-  }, [addUserAddress, addSDK, addContractInstances]);
+  }, [dispatch]);
 
   return (
     <Router>
       <main>
-        <Switch>
-          <Route path="/" component={Home} exact />
-          <Route path="/profile" component={Profile} />
-          <Route path="/search" component={Search} />
-          <Route path="/chat" component={Chat} />
-          <Route component={Home} />
-        </Switch>
-        <FooterNav />
+        <AnimatePresence exitBeforeEnter>
+          <Switch key={window.location.pathname} location={window.location}>
+            <Route path="/" component={Home} exact />
+            <Route path="/profile" component={Profile} />
+            <Route path="/search" component={Search} />
+            <Route path="/chat" component={Chat} />
+            <Route component={Home} />
+          </Switch>
+          <FooterNav />
+        </AnimatePresence>
       </main>
     </Router>
   );
@@ -53,11 +93,4 @@ const App = ({ state, addUserAddress, addSDK, addContractInstances }) => {
 
 const mapStateToProps = (state) => ({ state });
 
-const mapDispatchToProps = (dispatch) => ({
-  addUserAddress: (addr) => dispatch(addUserAddress(addr)),
-  addContractInstances: (instances) =>
-    dispatch(addContractInstances(instances)),
-  addSDK: (sdk) => dispatch(addSDK(sdk)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, null)(App);
