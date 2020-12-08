@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { motion } from "framer-motion";
-import logo from "../assets/logo-small.png";
+import logo from "../assets/logo/superhero.svg";
 import styles from "./ProfilePage.module.scss";
 
 const ProfilePage = ({
@@ -24,7 +24,7 @@ const ProfilePage = ({
 			}}
 		>
 			<figure className={styles.profileImg}>
-				<img src={profileImg || logo} alt="" />
+				<img src={profileImg || logo} alt={username || "Fellow superhero"} />
 			</figure>
 
 			<div className={styles.info}>
