@@ -25,7 +25,7 @@ const SearchPage = () => {
 					name="query"
 					id="query"
 					className={styles.input}
-					placeholder="Search..."
+					placeholder="Search... [username or address]"
 					onChange={(e) => runQuery(e.target.value)}
 				/>
 			</header>
