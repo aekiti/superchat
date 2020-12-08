@@ -23,7 +23,7 @@ const FooterNav = () => {
 				</li>
 
 				<li className={styles.navItem}>
-					<Link to="/">
+					<Link to="/" className={styles.navLink}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="20.619"
@@ -43,7 +43,7 @@ const FooterNav = () => {
 				</li>
 
 				<li className={styles.navItem}>
-					<Link to="/profile">
+					<Link to="/profile" className={styles.navLink}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="25"
@@ -64,7 +64,7 @@ const FooterNav = () => {
 				</li>
 
 				<li className={styles.navItem}>
-					<Link to="/friend-request">
+					<Link to="/friend-request" className={styles.navLink}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 640 512"
@@ -80,7 +80,7 @@ const FooterNav = () => {
 				</li>
 
 				<li className={styles.navItem}>
-					<Link to="/search">
+					<Link to="/search" className={styles.navLink}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 512 512"

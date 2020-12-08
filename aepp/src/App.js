@@ -28,7 +28,9 @@ const App = ({ state, dispatch }) => {
       dispatch(addContractInstances(resp.contractInstances)); // add contract instances to store
 
       // Fetch user profile
-      let getProfile = (await resp.contractInstances.profileInstance.methods.get_profile()).decodedResult;
+      let getProfile = (
+        await resp.contractInstances.profileInstance.methods.get_profile()
+      ).decodedResult;
 
       // Empty profile
       if (getProfile.name === "") {
@@ -71,8 +73,8 @@ const App = ({ state, dispatch }) => {
 
   return (
     <Router>
-      <main style={{ height: "100%", position: "relative" }}>
-        <AnimatePresence exitBeforeEnter>
+      <main className="app-container">
+        <AnimatePresence>
           <Switch key={window.location.pathname} location={window.location}>
             <Route path="/" component={Home} exact />
             <Route path="/profile" component={Profile} />

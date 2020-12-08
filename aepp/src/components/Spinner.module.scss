@@ -1,0 +1,10 @@
+@import "../_variable";
+
+.container {
+	position: relative;
+	background: $bgColor;
+	color: $textColor;
+	text-align: center;
+	height: 100%;
+	padding-top: 3rem;
+}

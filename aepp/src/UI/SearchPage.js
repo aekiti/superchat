@@ -27,6 +27,8 @@ const SearchPage = () => {
 					className={styles.input}
 					placeholder="Search... [username or address]"
 					onChange={(e) => runQuery(e.target.value)}
+					autoComplete="off"
+					autoFocus={true}
 				/>
 			</header>
 

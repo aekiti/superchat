@@ -1,12 +1,14 @@
+@import "../_variable";
+
 .stickyNav {
 	padding: 0.75rem;
-	position: fixed;
+	position: absolute;
 	width: 100%;
 	bottom: 0;
 	left: 0;
-	box-shadow: 0 -2px 3px rgba(100, 100, 100, 0.6);
-	background: white;
+	/*box-shadow: 0 -2px 3px rgba(100, 100, 100, 0.6);*/
 	z-index: 2;
+	background: $bgColor;
 }
 
 .navBody {
@@ -19,7 +21,6 @@
 
 .navItem {
 	list-style: none;
-	color: red;
 	flex-basis: 25%;
 	cursor: pointer;
 	text-align: center;

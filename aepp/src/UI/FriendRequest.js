@@ -36,9 +36,16 @@ const FriendRequest = ({ friendRequests, contractInstances }) => {
 
 const AddFriend = ({ setShowModal, friendInstance }) => {
 	const [friendAddr, setFriendAddr] = useState("");
+	const [errorMsg, setErrorMsg] = useState("");
+
 	const sendFriendRequest = async (e) => {
 		e.preventDefault();
 		console.log(friendAddr);
+
+		if (!friendAddr) {
+			setErrorMsg("Enter a valid address");
+			return false;
+		}
 		let k = (await friendInstance.methods.send_friend_request(friendAddr))
 			.decodeResult;
 
@@ -75,6 +82,7 @@ const AddFriend = ({ setShowModal, friendInstance }) => {
 							placeholder="ak_FfUXsy5X39FYaaWPs3tKBibc4tN1XFoyqDEz9fWybv7j129QR"
 							onChange={(e) => setFriendAddr(e.target.value)}
 						/>
+						<p style={{ color: "#333" }}>{errorMsg}</p>
 						<button type="submit">Send request</button>
 					</form>
 				</div>

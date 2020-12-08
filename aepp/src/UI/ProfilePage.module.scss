@@ -1,9 +1,13 @@
+@import "../_variable";
+
 .container {
 	padding: 2rem;
+	padding-bottom: 3rem;
 }
 
 .profileImg {
-	border: 1px solid #ddd;
+	/*border: 1px solid #eee;*/
+	box-shadow: 0 0 12px rgba($textColor, 0.5);
 	border-radius: 50%;
 	overflow: hidden;
 	margin: auto;
@@ -26,14 +30,13 @@
 	margin-top: 2rem;
 
 	span {
+		color: $primaryColor;
 		font-size: 0.95rem;
-		color: #777;
-		/*font-weight: 900;*/
 	}
 
 	p {
 		font-size: 1.15rem;
-		color: #111;
+		/*color: $primaryColor;*/
 		margin-bottom: 1rem;
 		overflow-wrap: break-word;
 		word-wrap: break-word;
