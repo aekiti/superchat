@@ -16,6 +16,7 @@ import Profile from "./UI/ProfilePage.js";
 import Search from "./UI/SearchPage.js";
 import Chat from "./UI/ChatPage.js";
 import FooterNav from "./components/FooterNav.js";
+import FriendRequest from "./UI/FriendRequest.js";
 // import ProfileBoard from "./components/ProfileBoard.js";
 
 const App = ({ state, dispatch }) => {
@@ -75,13 +76,14 @@ const App = ({ state, dispatch }) => {
 
   return (
     <Router>
-      <main>
+      <main style={{ height: "100%", position: "relative" }}>
         <AnimatePresence exitBeforeEnter>
           <Switch key={window.location.pathname} location={window.location}>
             <Route path="/" component={Home} exact />
             <Route path="/profile" component={Profile} />
             <Route path="/search" component={Search} />
             <Route path="/chat" component={Chat} />
+            <Route path="/friend-request" component={FriendRequest} />
             <Route component={Home} />
           </Switch>
           <FooterNav />
