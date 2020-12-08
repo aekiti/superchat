@@ -1,5 +1,5 @@
 export default {
-  contractAddress: 'ct_kdQ8q2GJSu2TwDJN2JVwdr2ngD7z4o5bQKsobtd7w1sgNEcQq',
+  contractAddress: 'ct_VZ3J3tYuRC7yy152dMWbDWXnbAL7TsSQdTyUAp4EZKbCSZTHK',
   contractSource: `contract SuperChatProfile =
 
   record user =
@@ -16,23 +16,27 @@ export default {
     { profile = {},
       admin   = Call.caller }
 
-  private function check_user(caller_address : address) : bool =
-    require(Map.member(caller_address, state.profile), "User Not Found")
+  private function check_admin() : bool =
+    require(state.admin == Call.origin, "Unauthorized Access")
+    true
+
+  private function check_user() : bool =
+    require(Map.member(Call.caller, state.profile), "User Not Found")
     true
     
-  entrypoint empty_profile(caller_address: address) : user =
-    let empty_profile : user = { name = "", about = "", image = "", owner = caller_address }
+  entrypoint empty_profile() : user =
+    let empty_profile : user = { name = "", about = "", image = "", owner = Call.caller }
     empty_profile
 
-  stateful entrypoint register_profile(name': string, about': string, image': string, owner': address) : user =
-    let new_profile : user = { name = name', about = about', image = image', owner = owner' }
-    put(state{ profile[owner'] = new_profile })
+  stateful entrypoint register_profile(name': string, about': string, image': string) : user =
+    let new_profile : user = { name = name', about = about', image = image', owner = Call.caller }
+    put(state{ profile[Call.caller] = new_profile })
     new_profile
 
-  entrypoint get_profile(caller_address: address) : user =
-    Map.lookup_default(caller_address, state.profile, empty_profile(caller_address))
+  entrypoint get_profile() : user =
+    Map.lookup_default(Call.caller, state.profile, empty_profile())
 
-  entrypoint get_all_profile(caller_address: address) : map(address, user) = 
-    require((Call.origin == state.admin || check_user(caller_address)), "Unauthorized Access")
+  entrypoint get_all_profile() : map(address, user) = 
+    (check_admin() || check_user())
     state.profile`
 }

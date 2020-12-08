@@ -27,11 +27,7 @@ const App = ({ state, dispatch }) => {
       dispatch(addContractInstances(resp.contractInstances)); // add contract instances to store
 
       // Fetch user profile
-      let getProfile = (
-        await resp.contractInstances.profileInstance.methods.get_profile(
-          resp.userAddress
-        )
-      ).decodedResult;
+      let getProfile = (await resp.contractInstances.profileInstance.methods.get_profile()).decodedResult;
 
       // Empty profile
       if (getProfile.name === "") {
@@ -41,6 +37,13 @@ const App = ({ state, dispatch }) => {
           );
           let response = await getSHProfile.json();
 
+          // Save user profile to blockchain
+          await resp.contractInstances.profileInstance.methods.register_profile(
+            response.preferredChainName || "false",
+            response.biography || "false",
+            response.image || "false"
+          );
+
           // Save response to store
           dispatch(
             addUserProfile({
@@ -48,14 +51,6 @@ const App = ({ state, dispatch }) => {
               about: response.biography,
               profileImg: `https://raendom-backend.z52da5wt.xyz${response.image}`,
             })
-          );
-
-          // Save user profile to blockchain
-          await resp.contractInstances.profileInstance.methods.register_profile(
-            response.preferredChainName || "false",
-            response.biography || "false",
-            response.image || "false",
-            resp.userAddress
           );
         } catch (e) {
           console.error("Error", e);

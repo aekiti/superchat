@@ -1,12 +1,12 @@
 contract ProfileContract =
   record user = { name  : string, about : string, image : string, owner : address }
-  entrypoint get_all_profile : (address) => map(address, user)
+  entrypoint get_all_profile : () => map(address, user)
 
 contract FriendContract =
   entrypoint get_all_friends : () => map(address, list(address))
 
 contract MessageContract =
-  record message = { message : string, time : int, sender : address, seen : bool }
+  record message = { content : string, time : int, sender : address }
   entrypoint get_all_messages : () => map(address, map(address, list(message)))
 
 contract FundContract =
@@ -30,30 +30,26 @@ contract SuperChatAdmin =
       funds    = fund_contract,
       admin    = Call.caller }
 
-  private function check_admin(caller_address: address)  : bool =
-    require(state.admin == caller_address, "Admin Only Function")
+  private function check_admin() : bool =
+    require(state.admin == Call.caller, "Unauthorized Access")
     true
 
-  entrypoint get_superchat_profiles(caller_address: address) : map(address, ProfileContract.user) =
-    check_admin(caller_address)
-    state.profile.get_all_profile(caller_address)
+  entrypoint get_superchat_profiles() : map(address, ProfileContract.user) =
+    check_admin()
+    state.profile.get_all_profile()
 
-  entrypoint get_superchat_friends(caller_address: address) : map(address, list(address)) =
-    check_admin(caller_address)
+  entrypoint get_superchat_friends() : map(address, list(address)) =
+    check_admin()
     state.friends.get_all_friends()
 
-  entrypoint get_superchat_messages(caller_address: address) : map(address, map(address, list(MessageContract.message))) =
-    check_admin(caller_address)
+  entrypoint get_superchat_messages() : map(address, map(address, list(MessageContract.message))) =
+    check_admin()
     state.messages.get_all_messages()
 
-  entrypoint get_superchat_funds(caller_address: address) : map(address, map(address, list(FundContract.fund))) =
-    check_admin(caller_address)
+  entrypoint get_superchat_funds() : map(address, map(address, list(FundContract.fund))) =
+    check_admin()
     state.funds.get_all_funds()
 
-  entrypoint get_superchat_balance(caller_address: address) : int = 
-    check_admin(caller_address)
-    Chain.balance(state.admin)
-
-  entrypoint get_fund_contract_balance(caller_address: address) : int = 
-    check_admin(caller_address)
+  entrypoint get_fund_contract_balance() : int = 
+    check_admin()
     state.funds.get_contract_balance()

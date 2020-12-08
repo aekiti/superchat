@@ -10,33 +10,35 @@ const deploy = async (network, privateKey, compiler, networkId) => {
   let fundContract = await deployer.deploy("./contracts/SuperChatFund.aes")
   let adminContract = await deployer.deploy("./contracts/SuperChatAdmin.aes", [profileContract.address, friendContract.address, messageContract.address, fundContract.address])
 
-  fs.writeFileSync(__dirname + "/../integrations/contractData.md", `# SuperChat Contracts
+  fs.writeFileSync(__dirname + "/../contracts/DeployedContractData.md", `# Superchat Contracts
 
-## ProfileContract
+_The following contracts was deployed to æternity ${network} network._
+
+## SuperChatProfile Contract
 - Address: ${profileContract.address}
 - Owner: ${profileContract.owner}
 - Transaction: ${profileContract.transaction}
 - CreatedAt: ${profileContract.createdAt}
 
-## FriendContract
+## SuperChatFriend Contract
 - Address: ${friendContract.address}
 - Owner: ${friendContract.owner}
 - Transaction: ${friendContract.transaction}
 - CreatedAt: ${friendContract.createdAt}
 
-## MessageContract
+## SuperChatMessage Contract
 - Address: ${messageContract.address}
 - Owner: ${messageContract.owner}
 - Transaction: ${messageContract.transaction}
 - CreatedAt: ${messageContract.createdAt}
 
-## FundContract
+## SuperChatFund Contract
 - Address: ${fundContract.address}
 - Owner: ${fundContract.owner}
 - Transaction: ${fundContract.transaction}
 - CreatedAt: ${fundContract.createdAt}
 
-## AdminContract
+## SuperChatAdmin Contract
 - Address: ${adminContract.address}
 - Owner: ${adminContract.owner}
 - Transaction: ${adminContract.transaction}
