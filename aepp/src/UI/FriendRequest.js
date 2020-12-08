@@ -5,6 +5,8 @@ import styles from "./FriendRequest.module.scss";
 
 const FriendRequest = ({ friendRequests, contractInstances }) => {
 	const [showModal, setShowModal] = useState(false);
+	const { friendInstance } = contractInstances;
+
 	return (
 		<motion.section
 			className={styles.container}
@@ -17,7 +19,7 @@ const FriendRequest = ({ friendRequests, contractInstances }) => {
 			{showModal && (
 				<AddFriend
 					setShowModal={setShowModal}
-					contractInstances={contractInstances}
+					friendInstance={friendInstance}
 				/>
 			)}
 
@@ -32,11 +34,15 @@ const FriendRequest = ({ friendRequests, contractInstances }) => {
 	);
 };
 
-const AddFriend = ({ setShowModal }) => {
+const AddFriend = ({ setShowModal, friendInstance }) => {
 	const [friendAddr, setFriendAddr] = useState("");
-	const sendFriendRequest = (e) => {
+	const sendFriendRequest = async (e) => {
 		e.preventDefault();
 		console.log(friendAddr);
+		let k = (await friendInstance.methods.send_friend_request(friendAddr))
+			.decodeResult;
+
+		console.log(k);
 	};
 
 	return (
