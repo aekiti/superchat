@@ -6,6 +6,7 @@ const initialState = {
 	userProfile: {},
 	messages: [],
 	sdk: {},
+	friendRequests: [],
 };
 
 const rootReducer = (state = initialState, action) => {

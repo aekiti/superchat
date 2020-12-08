@@ -1,0 +1,83 @@
+@import "../_variable";
+
+.container {
+	padding: 2rem;
+	position: relative;
+	height: 100%;
+	user-select: none;
+}
+
+.floatBtn {
+	display: block;
+	position: absolute;
+	bottom: 10%;
+	right: 5%;
+	border: none;
+	border-radius: 50%;
+	font-size: 2rem;
+	height: 3rem;
+	width: 3rem;
+	background: $bgColor;
+	cursor: pointer;
+}
+
+.modalOverlay {
+	background: lightgrey;
+	background: black;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal {
+	width: 80%;
+	padding: 1rem;
+	background: white;
+	border-radius: 5px;
+	box-shadow: 0 0 2px rgba(100, 100, 100, 0.7),
+		2px 2px 5px rgba(100, 100, 100, 0.5);
+}
+.header {
+	position: relative;
+
+	h4 {
+		font-variant: small-caps;
+		margin-bottom: 1rem;
+		text-align: center;
+	}
+
+	p {
+		background: white;
+		font-size: 2rem;
+		border-radius: 50%;
+		box-shadow: 0 0 5px rgba(100, 100, 100, 0.5);
+		height: 3rem;
+		width: 3rem;
+		text-align: center;
+		cursor: pointer;
+		position: absolute;
+		top: -100%;
+		right: -10%;
+	}
+}
+.body {
+	input,
+	label,
+	button {
+		display: block;
+	}
+
+	input {
+		width: 100%;
+		margin-bottom: 0.5rem;
+	}
+
+	button {
+		cursor: pointer;
+	}
+}
