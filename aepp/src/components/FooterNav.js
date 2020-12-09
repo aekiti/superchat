@@ -64,7 +64,7 @@ const FooterNav = () => {
 				</li>
 
 				<li className={styles.navItem}>
-					<Link to="/friend-request" className={styles.navLink}>
+					<Link to="/request" className={styles.navLink}>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 640 512"

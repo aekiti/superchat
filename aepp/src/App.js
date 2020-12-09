@@ -54,7 +54,7 @@ const App = ({ state, dispatch }) => {
             <Route path="/profile" component={Profile} />
             <Route path="/search" component={Search} />
             <Route path="/chat" component={Chat} />
-            <Route path="/friend-request" component={FriendRequest} />
+            <Route path="/request" component={FriendRequest} />
             <Route component={Home} />
           </Switch>
           <FooterNav />
