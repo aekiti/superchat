@@ -1,5 +1,5 @@
 export default {
-  contractAddress: "ct_aFvQ6wzDF6ro9Fr6FzSAVp5BGio4KfNwEStDBrfAgaRzLHXgi",
+  contractAddress: "ct_PfBMLbdHDqTWQ7x4eGqyigQxJMFY3G9BnR1qBo1TFyvY6A1r3",
   contractSource: `contract SuperChatProfile =
 
   record user =
@@ -24,6 +24,6 @@ export default {
     Map.lookup_default(Call.caller, state.profile, empty_profile())
 
   public entrypoint get_all_profile() : map(address, user) =
-    require(Map.member(Call.origin, state.profile), "Unauthorized Access")
+    require(Map.member(Call.origin, state.profile), abort("Unauthorized Access"))
     state.profile`,
 };

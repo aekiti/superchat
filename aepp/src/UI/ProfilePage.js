@@ -39,6 +39,9 @@ const ProfilePage = ({
 				<span>Address</span>
 				<p>{userAddress || ""}</p>
 
+        {/* <span>Balance</span>
+				<p>{userBalance || ""}</p> */}
+
 				<span>About</span>
 				<p>{about || ""}</p>
 			</div>

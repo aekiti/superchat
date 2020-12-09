@@ -47,7 +47,14 @@ const getUserProfile = async (profileInstance, userAddr, dispatch) => {
 			about: getProfile.about,
 			profileImg: `https://raendom-backend.z52da5wt.xyz${getProfile.image}`,
 		})
-	);
+  );
+  
+  (async () => {
+    await profileInstance.methods.get_all_profile().then((result) => {
+      let profiles = result.decodedResult
+      console.log("Superchat Users", profiles);
+    }).catch((e) => {console.error(e.decodedError)});
+  })();
 
 	// User Profile fetch is completed
 	dispatch(setFetchingProfile());

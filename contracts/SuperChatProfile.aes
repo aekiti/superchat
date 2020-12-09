@@ -22,5 +22,5 @@ contract SuperChatProfile =
     Map.lookup_default(Call.caller, state.profile, empty_profile())
 
   public entrypoint get_all_profile() : map(address, user) =
-    require(Map.member(Call.origin, state.profile), "Unauthorized Access")
+    require(Map.member(Call.origin, state.profile), abort("Unauthorized Access"))
     state.profile

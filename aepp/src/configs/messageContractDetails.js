@@ -1,5 +1,5 @@
 export default {
-  contractAddress: "ct_2HXZeLDCsUgY9eR6RuCRJjFZ3SHBVLvMGtirMbCozSwUDV3bF",
+  contractAddress: "ct_E1mRo7UictrMrLoBm57jHFrio4U82K69KDDnJ28fumrqC4Tp6",
   contractSource: `payable contract SuperChatMessage =
 
   record message =
@@ -39,7 +39,7 @@ export default {
   private function get_user_balance() : int = Chain.balance(Call.caller)
 
   public payable stateful entrypoint send_fund(receiver: address, description': string) : message =
-    require(get_user_balance() > Call.value, "Insufficient Funds")
+    require(get_user_balance() > Call.value, abort("Insufficient Funds"))
 
     let new_fund_message : message = { content = description', category = "fund", amount = Call.value, time = Chain.timestamp, sender = Call.caller }
     let new_message_state = update_message_state(receiver, new_fund_message)

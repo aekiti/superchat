@@ -1,5 +1,5 @@
 export default {
-  contractAddress: "ct_2k4ucddBEGi3dLRmEBKZA7SBPy5E3fQNG4ZEDBmvTaJ5ME1dXu",
+  contractAddress: "ct_AhnPZ6qk98bNeCyQ5Np3wysiNpra8HBBJBTr82JL62Mu6NFSC",
   contractSource: `contract ProfileContract =
   record user = { name  : string, about : string, image : string, owner : address }
   entrypoint empty_profile : () => user

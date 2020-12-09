@@ -9,7 +9,7 @@ const SearchPage = ({ friendRequests, friends, isFetchingMessages }) => {
 		console.log(query);
 	};
 
-	if (isFetchingMessages) return <Spinner message="Loading friends..." />;
+	if (isFetchingMessages) return <Spinner message="Loading superchat users..." />;
 
 	return (
 		<motion.section

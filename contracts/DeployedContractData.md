@@ -3,19 +3,19 @@
 _The following contracts was deployed to æternity testnet network._
 
 ## SuperChatProfile Contract
-- Address: ct_aFvQ6wzDF6ro9Fr6FzSAVp5BGio4KfNwEStDBrfAgaRzLHXgi
+- Address: ct_PfBMLbdHDqTWQ7x4eGqyigQxJMFY3G9BnR1qBo1TFyvY6A1r3
 - Owner: ak_jgSwHayBnw7wLTGV3hp7Kec5shxya9ZYVm6kjXbcFAZsvBfgE
-- Transaction: th_sSt1KsBZnHiNcKThamEVbDUFVS8dncK1xjMpHYxnvSMjyAMk3
-- CreatedAt: Wed Dec 09 2020 04:25:04 GMT+0100 (West Africa Standard Time)
+- Transaction: th_2mfGVXueua2i8K7vfy9wA48a3LqYaWKqA1RnWyyqSctfYHNgJS
+- CreatedAt: Wed Dec 09 2020 17:00:13 GMT+0100 (West Africa Standard Time)
 
 ## SuperChatFriend Contract
-- Address: ct_2k4ucddBEGi3dLRmEBKZA7SBPy5E3fQNG4ZEDBmvTaJ5ME1dXu
+- Address: ct_AhnPZ6qk98bNeCyQ5Np3wysiNpra8HBBJBTr82JL62Mu6NFSC
 - Owner: ak_jgSwHayBnw7wLTGV3hp7Kec5shxya9ZYVm6kjXbcFAZsvBfgE
-- Transaction: th_qJi9RxZrU94T58wRoxL4RqakmT8jufzMa4Y6cBS3YgDGTFRY7
-- CreatedAt: Wed Dec 09 2020 04:25:56 GMT+0100 (West Africa Standard Time)
+- Transaction: th_rVSwW4QMrvjAHvpm6LNrzj8pa9JQJFUeQCMA8p2U69Z2p4AqL
+- CreatedAt: Wed Dec 09 2020 17:01:07 GMT+0100 (West Africa Standard Time)
 
 ## SuperChatMessage Contract
-- Address: ct_2HXZeLDCsUgY9eR6RuCRJjFZ3SHBVLvMGtirMbCozSwUDV3bF
+- Address: ct_E1mRo7UictrMrLoBm57jHFrio4U82K69KDDnJ28fumrqC4Tp6
 - Owner: ak_jgSwHayBnw7wLTGV3hp7Kec5shxya9ZYVm6kjXbcFAZsvBfgE
-- Transaction: th_2V1aLNYUhpMHNbnHNdPirZ52uRuX6E6LyJTY6k3Lvt7PvLU3Vu
-- CreatedAt: Wed Dec 09 2020 04:26:47 GMT+0100 (West Africa Standard Time)
+- Transaction: th_M3DPsmqtgk17dSdkvdx38boG3XbNdNC2w24Hhxrr2VKFZKUBh
+- CreatedAt: Wed Dec 09 2020 17:02:03 GMT+0100 (West Africa Standard Time)

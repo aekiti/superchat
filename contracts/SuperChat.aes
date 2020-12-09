@@ -38,7 +38,7 @@ payable contract SuperChat =
     Map.lookup_default(Call.caller, state.profile, empty_profile())
 
   public entrypoint get_all_profile() : map(address, user) =
-    require(Map.member(Call.caller, state.profile), "Unauthorized Access")
+    require(Map.member(Call.caller, state.profile), abort("Unauthorized Access"))
     state.profile
 
   public stateful entrypoint send_friend_request(friends_address: address) : list(address) =
@@ -111,7 +111,7 @@ payable contract SuperChat =
   private function get_user_balance() : int = Chain.balance(Call.caller)
 
   public payable stateful entrypoint send_fund(receiver: address, description': string) : message =
-    require(get_user_balance() > Call.value, "Insufficient Funds")
+    require(get_user_balance() > Call.value, abort("Insufficient Funds"))
 
     let new_fund_message : message = { content = description', category = "fund", amount = Call.value, time = Chain.timestamp, sender = Call.caller }
     let new_message_state = update_message_state(receiver, new_fund_message)
