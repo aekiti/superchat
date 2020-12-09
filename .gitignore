@@ -1,4 +1,5 @@
 /node_modules
 /keep
 .aeproject-store
+.firebase
 .DS_Store
