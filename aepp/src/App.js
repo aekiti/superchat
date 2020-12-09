@@ -16,8 +16,8 @@ import Home from "./UI/HomePage.js";
 import Profile from "./UI/ProfilePage.js";
 import Search from "./UI/SearchPage.js";
 import Chat from "./UI/ChatPage.js";
-import FooterNav from "./components/FooterNav.js";
 import FriendRequest from "./UI/FriendRequest.js";
+import FooterNav from "./components/FooterNav.js";
 // import ProfileBoard from "./components/ProfileBoard.js";
 
 const App = ({ state, dispatch }) => {

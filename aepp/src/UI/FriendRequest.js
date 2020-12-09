@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { motion } from "framer-motion";
 import styles from "./FriendRequest.module.scss";

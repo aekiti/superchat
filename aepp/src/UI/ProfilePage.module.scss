@@ -2,9 +2,10 @@
 
 .container {
 	padding: 2rem;
-  padding-bottom: 3rem;
-  
-  @media screen and (min-width: 768px) {
+	height: 100%;
+	padding-bottom: 3rem;
+
+	@media screen and (min-width: 768px) {
 		margin-top: 7rem;
 	}
 }

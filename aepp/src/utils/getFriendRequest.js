@@ -1,5 +1,5 @@
 import {
-	addFriendRequests,
+	// addFriendRequests,
 	setFetchingFrndReq,
 } from "../actions/actionCreator.js";
 
