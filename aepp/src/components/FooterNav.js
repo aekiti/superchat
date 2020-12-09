@@ -31,6 +31,7 @@ const FooterNav = () => {
 							viewBox="0 0 20.619 24.432"
 						>
 							<path
+								className={styles.homeIcon}
 								d="M11,18.539V31H29.619V18.539L20.2,9Z"
 								transform="translate(-10 -7.568)"
 								fill="none"

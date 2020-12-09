@@ -24,6 +24,18 @@
 	flex-basis: 25%;
 	cursor: pointer;
 	text-align: center;
+
+	svg path {
+		transition: all 0.2s linear;
+	}
+
+	&:hover svg path:not(.homeIcon) {
+		fill: $primaryColor;
+	}
+
+	&:hover .homeIcon {
+		stroke: $primaryColor;
+	}
 }
 
 .navLink {

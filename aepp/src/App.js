@@ -28,9 +28,6 @@ const App = ({ state, dispatch }) => {
       dispatch(addSDK(resp.sdk)); // add the SDK object to store
       dispatch(addContractInstances(resp.contractInstances)); // add contract instances to store
 
-      // Get user Balance
-      console.log("User Balance", resp.sdk.balance(resp.userAddress));
-
       // Get user profile
       getUserProfile(
         resp.contractInstances.profileInstance,
@@ -38,11 +35,7 @@ const App = ({ state, dispatch }) => {
         dispatch
       );
       // Get friend requests
-      getFriendRequest(
-        resp.contractInstances.friendInstance,
-        resp.userAddress,
-        dispatch
-      );
+      getFriendRequest(resp.contractInstances.friendInstance, dispatch);
 
       // Fetch all messages
     })();
