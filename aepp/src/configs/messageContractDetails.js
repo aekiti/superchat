@@ -1,8 +1,6 @@
 export default {
-  contractAddress: 'ct_2vFsMtzVww3YoHMUmevLAgBDnWb7ZN4E6HwbBQU4Vi6JgXYYxG',
-  contractSource: `@compiler >= 4
-
-  payable contract SuperChatMessage =
+  contractAddress: "ct_uW3Q5iEgBV3AeKfxrWVcQrHohiycrwnxSXXkwh8cHXHjKVo6r",
+  contractSource: `payable contract SuperChatMessage =
   
     record message =
       { content  : string,
@@ -54,5 +52,5 @@ export default {
       Map.lookup_default(Call.caller, state.messages, {})
   
     public entrypoint get_user_friend_messages(friend_address: address) : list(message) =
-      Map.lookup_default(friend_address, get_user_messages(), [])`
-}
+      Map.lookup_default(friend_address, get_user_messages(), [])`,
+};

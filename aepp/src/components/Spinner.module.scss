@@ -1,10 +1,13 @@
 @import "../_variable";
 
 .container {
-	position: relative;
+	position: absolute;
+	top: 0;
+	left: 0;
 	background: $bgColor;
 	color: $textColor;
 	text-align: center;
 	height: 100%;
+	width: 100%;
 	padding-top: 3rem;
 }

@@ -9,9 +9,7 @@ import nodeConfig from "../configs/nodeConfig";
 let sdk,
   contractInstances = {};
 
-let profileContract,
-  friendContract,
-  messageContract;
+let profileContract, friendContract, messageContract;
 
 const scanForWallets = async () => {
   if (!sdk) throw new Error("Init sdk first");
@@ -36,21 +34,30 @@ const scanForWallets = async () => {
 const initSuperchatContractIfNeeded = async () => {
   if (!sdk) throw new Error("Init sdk first");
   if (!profileContract) {
-    profileContract = await sdk.getContractInstance(profileContractDetails.contractSource, {
-      contractAddress: profileContractDetails.contractAddress
-    });
+    profileContract = await sdk.getContractInstance(
+      profileContractDetails.contractSource,
+      {
+        contractAddress: profileContractDetails.contractAddress,
+      }
+    );
     contractInstances.profileInstance = profileContract;
   }
   if (!friendContract) {
-    friendContract = await sdk.getContractInstance(friendContractDetails.contractSource, {  
-      contractAddress: friendContractDetails.contractAddress
-    });
+    friendContract = await sdk.getContractInstance(
+      friendContractDetails.contractSource,
+      {
+        contractAddress: friendContractDetails.contractAddress,
+      }
+    );
     contractInstances.friendInstance = friendContract;
   }
   if (!messageContract) {
-    messageContract = await sdk.getContractInstance(messageContractDetails.contractSource, {  
-      contractAddress: messageContractDetails.contractAddress
-    });
+    messageContract = await sdk.getContractInstance(
+      messageContractDetails.contractSource,
+      {
+        contractAddress: messageContractDetails.contractAddress,
+      }
+    );
     contractInstances.messageInstance = messageContract;
   }
 };

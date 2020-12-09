@@ -1,14 +1,12 @@
 export default {
-  contractAddress: 'ct_q3UQ1iv5jBafj7KpArJhJ7QTiFTw58vxvaS17q8QzsqAzUvu5',
-  contractSource: `@compiler >= 4
-
-  contract ProfileContract =
+  contractAddress: "ct_eH7BJRMeuni568DKosmPrepoeGd9tEnXoDqKDvwtXnA7zjaa7",
+  contractSource: `contract ProfileContract =
     record user = { name  : string, about : string, image : string, owner : address }
     entrypoint empty_profile : () => user
     entrypoint get_all_profile : () => map(address, user)
   
-  include "List.aes"
-  contract SuperChatFriend =
+include "List.aes"
+contract SuperChatFriend =
   
     record state =
       { profile       : ProfileContract,
@@ -62,5 +60,5 @@ export default {
       new_friend_request_list
   
     public entrypoint get_friends() : list(ProfileContract.user) =
-      List.map((friend) => Map.lookup_default(friend, state.profile.get_all_profile(), state.profile.empty_profile()), Map.lookup_default(Call.caller, state.friends, []))`
-}
+      List.map((friend) => Map.lookup_default(friend, state.profile.get_all_profile(), state.profile.empty_profile()), Map.lookup_default(Call.caller, state.friends, []))`,
+};

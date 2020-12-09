@@ -7,8 +7,9 @@ import {
   addUserAddress,
   addContractInstances,
   addSDK,
-  addUserProfile,
 } from "./actions/actionCreator.js";
+import getUserProfile from "./utils/getUserProfile.js";
+import getFriendRequest from "./utils/getFriendRequest.js";
 
 import "./App.css";
 import Home from "./UI/HomePage.js";
@@ -23,54 +24,25 @@ const App = ({ state, dispatch }) => {
   useEffect(() => {
     (async () => {
       let resp = await initSdk();
-      console.log('InitSDK', resp);
+      console.log("InitSDK", resp);
       dispatch(addUserAddress(resp.userAddress)); // add user address to store
       dispatch(addSDK(resp.sdk)); // add the SDK object to store
       dispatch(addContractInstances(resp.contractInstances)); // add contract instances to store
 
-      // Fetch user profile
-      let getProfile = (
-        await resp.contractInstances.profileInstance.methods.get_profile()
-      ).decodedResult;
-      console.log('User Profile', getProfile);
+      // Get user profile
+      getUserProfile(
+        resp.contractInstances.profileInstance,
+        resp.userAddress,
+        dispatch
+      );
+      // Get friend requests
+      getFriendRequest(
+        resp.contractInstances.friendInstance,
+        resp.userAddress,
+        dispatch
+      );
 
-      // Empty profile
-      if (getProfile.name === "") {
-        try {
-          let getSHProfile = await fetch(
-            `https://raendom-backend.z52da5wt.xyz/profile/${resp.userAddress}`
-          );
-          let response = await getSHProfile.json();
-          console.log('Superhero Profile', response);
-
-          // Save user profile to blockchain
-          await resp.contractInstances.profileInstance.methods.register_or_update_profile(
-            response.preferredChainName || "false",
-            response.biography || "false",
-            response.image || "false"
-          );
-
-          // Save response to store
-          dispatch(
-            addUserProfile({
-              username: response.preferredChainName,
-              about: response.biography,
-              profileImg: `https://raendom-backend.z52da5wt.xyz${response.image}`,
-            })
-          );
-        } catch (e) {
-          console.error("Error", e);
-        }
-      } else {
-        // Save response to store
-        dispatch(
-          addUserProfile({
-            username: getProfile.name,
-            about: getProfile.about,
-            profileImg: `https://raendom-backend.z52da5wt.xyz${getProfile.image}`,
-          })
-        );
-      }
+      // Fetch all messages
     })();
   }, [dispatch]);
 

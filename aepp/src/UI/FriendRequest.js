@@ -1,11 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { motion } from "framer-motion";
 import styles from "./FriendRequest.module.scss";
+import Spinner from "../components/Spinner.js";
 
-const FriendRequest = ({ friendRequests, contractInstances }) => {
+const FriendRequest = ({
+	friendRequests,
+	contractInstances,
+	dispatch,
+	isFetchingFrndReq,
+}) => {
 	const [showModal, setShowModal] = useState(false);
 	const { friendInstance } = contractInstances;
+
+	// useEffect(() => {
+	// 	(async () => {
+	// 		let friendReqList = (await friendInstance.methods.get_friend_request())
+	// 			.decodeResult;
+	// 		console.log(friendReqList);
+	// 		dispatch(addFriendRequests(friendReqList));
+	// 	})();
+	// }, []);
+
+	if (isFetchingFrndReq)
+		return <Spinner message="Fetching friend requests..." />;
 
 	return (
 		<motion.section
@@ -14,7 +32,7 @@ const FriendRequest = ({ friendRequests, contractInstances }) => {
 			exit={{ opacity: 0 }}
 			animate={{ opacity: 1, transition: { duration: 0.5 } }}
 		>
-			<h2>Friend Requests</h2>
+			<h2>Oops! You have no friend request.</h2>
 
 			{showModal && (
 				<AddFriend
@@ -94,6 +112,7 @@ const AddFriend = ({ setShowModal, friendInstance }) => {
 const mapStateToProps = (state) => ({
 	friendRequests: state.friendRequests,
 	contractInstances: state.contractInstances,
+	isFetchingFrndReq: state.isFetchingFrndReq,
 });
 
 export default connect(mapStateToProps, null)(FriendRequest);

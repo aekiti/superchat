@@ -3,14 +3,20 @@ import { connect } from "react-redux";
 import { motion } from "framer-motion";
 import logo from "../assets/logo/superhero.svg";
 import styles from "./ProfilePage.module.scss";
+import Spinner from "../components/Spinner.js";
 
 const ProfilePage = ({
 	userProfile: { profileImg, username, userAddress, about },
+	isFetchingProfile,
 }) => {
+	console.log(isFetchingProfile);
 	// Check for false values
 	if (username === "false") username = "";
 	if (profileImg === "false") profileImg = "";
 	if (about === "false") about = "";
+
+	if (isFetchingProfile) return <Spinner message="Fetching user profile..." />;
+
 	return (
 		<motion.section
 			className={styles.container}
@@ -43,6 +49,7 @@ const ProfilePage = ({
 
 const mapStateToProps = (state) => ({
 	userProfile: state.userProfile,
+	isFetchingProfile: state.isFetchingProfile,
 });
 
 export default connect(mapStateToProps, null)(ProfilePage);

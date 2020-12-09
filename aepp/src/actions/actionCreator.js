@@ -23,9 +23,17 @@ const addUserAddress = (address) => ({
 	payload: address,
 });
 
-const updateAppState = (status) => ({
-	type: "UPDATE_APP_STATE",
-	payload: status,
+const addFriendRequests = (friendList) => ({
+	type: "ADD_FRIEND_REQUESTS",
+	payload: friendList,
+});
+
+const setFetchingProfile = () => ({
+	type: "SET_FETCHING_PROFILE",
+});
+
+const setFetchingFrndReq = () => ({
+	type: "SET_FETCHING_FRND_REQ",
 });
 
 export {
@@ -34,5 +42,7 @@ export {
 	addUserProfile,
 	addUserImage,
 	addUserAddress,
-	updateAppState,
+	addFriendRequests,
+	setFetchingProfile,
+	setFetchingFrndReq,
 };
