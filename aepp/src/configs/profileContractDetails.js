@@ -1,42 +1,31 @@
 export default {
-  contractAddress: 'ct_VZ3J3tYuRC7yy152dMWbDWXnbAL7TsSQdTyUAp4EZKbCSZTHK',
-  contractSource: `contract SuperChatProfile =
+  contractAddress: 'ct_HTgLyXWibFijZgQbveuPRSjBb8pEBTiJechMyrWaGimgi6jjU',
+  contractSource: `@compiler >= 4
 
-  record user =
-    { name  : string,
-      about : string,
-      image : string,
-      owner : address }
-
-  record state = 
-    { profile : map(address, user),
-      admin   : address }
-
-  stateful entrypoint init() : state = 
-    { profile = {},
-      admin   = Call.caller }
-
-  private function check_admin() : bool =
-    require(state.admin == Call.origin, "Unauthorized Access")
-    true
-
-  private function check_user() : bool =
-    require(Map.member(Call.caller, state.profile), "User Not Found")
-    true
-    
-  entrypoint empty_profile() : user =
-    let empty_profile : user = { name = "", about = "", image = "", owner = Call.caller }
-    empty_profile
-
-  stateful entrypoint register_profile(name': string, about': string, image': string) : user =
-    let new_profile : user = { name = name', about = about', image = image', owner = Call.caller }
-    put(state{ profile[Call.caller] = new_profile })
-    new_profile
-
-  entrypoint get_profile() : user =
-    Map.lookup_default(Call.caller, state.profile, empty_profile())
-
-  entrypoint get_all_profile() : map(address, user) = 
-    (check_admin() || check_user())
-    state.profile`
+  contract SuperChatProfile =
+  
+    record user =
+      { name  : string,
+        about : string,
+        image : string,
+        owner : address }
+  
+    record state = { profile : map(address, user) }
+  
+    stateful entrypoint init() : state = { profile = {} }
+  
+    public stateful entrypoint register_or_update_profile(name': string, about': string, image': string) : user =
+      let user_profile : user = { name = name', about = about', image = image', owner = Call.caller }
+      put(state{ profile[Call.caller] = user_profile })
+      user_profile
+  
+    public entrypoint empty_profile() : user =
+      { name = "", about = "", image = "", owner = Call.caller }
+  
+    public entrypoint get_profile() : user =
+      Map.lookup_default(Call.caller, state.profile, empty_profile())
+  
+    public entrypoint get_all_profile() : map(address, user) =
+      require(Map.member(Call.origin, state.profile), "Unauthorized Access")
+      state.profile`
 }

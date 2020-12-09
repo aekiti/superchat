@@ -1,3 +1,5 @@
+@compiler >= 4
+
 include "List.aes"
 payable contract SuperChat =
 
@@ -8,84 +10,67 @@ payable contract SuperChat =
       owner : address }
 
   record message =
-    { content : string,
-      time    : int,
-      sender  : address }
-
-  record fund =
-    { sender      : address,
-      time        : int,
-      amount      : int,
-      description : string }
+    { content  : string,
+      category : string,
+      amount   : int,
+      time     : int,
+      sender   : address }
 
   record state =
     { profile       : map(address, user),
-      friends       : map(address, list(address)),
       requests      : map(address, list(address)),
-      newest_friend : map(address, address),
-      messages      : map(address, map(address, list(message))),
-      funds         : map(address, map(address, list(fund))),
-      admin         : address }
+      friends       : map(address, list(address)),
+      messages      : map(address, map(address, list(message))) }
 
   stateful entrypoint init() : state =
     { profile       = {},
-      friends       = {},
       requests      = {},
-      newest_friend = {},
-      messages      = {},
-      funds         = {},
-      admin         = Call.caller }
+      friends       = {},
+      messages      = {} }  
 
-  private function check_admin() : bool =
-    require(state.admin == Call.caller, "Unauthorized Access")
-    true
-  
-  private function check_user() : bool =
-    require(Map.member(Call.caller, state.profile), "User Not Found")
-    true
+  public stateful entrypoint register_or_update_profile(name': string, about': string, image': string) : user =
+    let user_profile : user = { name = name', about = about', image = image', owner = Call.caller }
+    put(state{ profile[Call.caller] = user_profile })
+    user_profile
 
-  entrypoint empty_profile() : user =
-    let empty_profile : user = { name = "", about = "", image = "", owner = Call.caller }
-    empty_profile
+  private function empty_profile() : user =
+    { name = "", about = "", image = "", owner = Call.caller }
 
-  stateful entrypoint register_profile(name': string, about': string, image': string) : user =
-    let new_profile : user = { name = name', about = about', image = image', owner = Call.caller }
-    put(state{ profile[Call.caller] = new_profile })
-    new_profile
-
-  entrypoint get_profile() : user =
+  public entrypoint get_profile() : user =
     Map.lookup_default(Call.caller, state.profile, empty_profile())
 
-  entrypoint get_all_profile() : map(address, user) =
-    (check_admin() || check_user())
+  public entrypoint get_all_profile() : map(address, user) =
+    require(Map.member(Call.caller, state.profile), "Unauthorized Access")
     state.profile
 
-  stateful entrypoint send_friend_request(friends_address: address) : list(address) =
+  public stateful entrypoint send_friend_request(friends_address: address) : list(address) =
     let empty_address_list : list(address) = [Call.caller]
+
     switch(Map.lookup(friends_address, state.requests))
-      None =>   only_one_friend_request(friends_address, empty_address_list)
+      None    =>   only_one_friend_request(friends_address, empty_address_list)
       Some(x) => modify_friends_request(x, empty_address_list, friends_address)
 
-  stateful function modify_friends_request(old_list: list(address), new_friend_list: list(address), friends_address: address) : list(address) =
+  private stateful function only_one_friend_request(friends_address: address, new_friend_list: list(address)) : list(address) =
+    put(state{requests[friends_address] = new_friend_list})
+    new_friend_list
+
+  private stateful function modify_friends_request(old_list: list(address), new_friend_list: list(address), friends_address: address) : list(address) =
     let new_list : list(address) = new_friend_list ++ old_list
+
     put(state{ requests[friends_address] = new_list })
     new_list
 
-  stateful function only_one_friend_request(friends_address: address, new_friend_list: list(address)) : list(address) =
-    put(state{ requests[friends_address] = new_friend_list })
-    new_friend_list
+  public entrypoint get_friend_request() : list(user) =
+    List.map((request) => Map.lookup_default(request, get_all_profile(), empty_profile()), Map.lookup_default(Call.caller, state.requests, []))
 
-  entrypoint get_friend_request() : list(user) =
-    let friends_request : list(user) = List.map((request) => Map.lookup_default(request, get_all_profile(), empty_profile()), Map.lookup_default(Call.caller, state.requests, []))
-    friends_request
-
-  stateful entrypoint reject_friend_request(new_friends_address: address) : list(address) =
+  public stateful entrypoint reject_friend_request(new_friends_address: address) : list(address) =
     let friend_request_list : list(address) = Map.lookup_default(Call.caller, state.requests, [])
     let new_friend_request_list : list(address) = List.filter((request) => request != new_friends_address, friend_request_list)
+    
     put(state{ requests[Call.caller] = new_friend_request_list })
     new_friend_request_list
 
-  stateful entrypoint accept_friend_request(new_friends_address: address) : unit =
+  public stateful entrypoint accept_friend_request(new_friends_address: address) : list(address) =
     let friend_request_list : list(address) = Map.lookup_default(Call.caller, state.requests, [])
     let new_friend_request_list : list(address) = List.filter((request) => request != new_friends_address, friend_request_list)
 
@@ -95,19 +80,14 @@ payable contract SuperChat =
     let new_request_senders_friend_list : list(address) = Call.caller::request_senders_friend_list
     let new_friends_list : list(address) = new_friends_address::friends_list
 
-    let new_friendsMap : map(address, list(address)) = state.friends{ [Call.caller] = new_friends_list, [new_friends_address] = new_request_senders_friend_list }
-    put(state{ friends = new_friendsMap, requests[Call.caller] = new_friend_request_list })
+    let new_friends_map : map(address, list(address)) = state.friends{ [Call.caller] = new_friends_list, [new_friends_address] = new_request_senders_friend_list }
+    put(state{ friends = new_friends_map, requests[Call.caller] = new_friend_request_list })
+    new_friend_request_list
 
-  entrypoint get_friends() : list(user) =
-    let friends : list(user) = List.map((friend) => Map.lookup_default(friend, get_all_profile(), empty_profile()), Map.lookup_default(Call.caller, state.friends, []))
-    friends
+  public entrypoint get_friends() : list(user) =
+    List.map((friend) => Map.lookup_default(friend, get_all_profile(), empty_profile()), Map.lookup_default(Call.caller, state.friends, []))
 
-  entrypoint get_all_friends() : map(address, list(address)) =
-    check_admin()
-    state.friends
-
-  stateful entrypoint send_message(receiver: address, content': string) : message =
-    let new_message : message = { content = content', time = Chain.timestamp, sender = Call.caller }
+  private function update_message_state(receiver: address, new_message: message) : map(address, map(address, list(message))) =
     let old_state_senders_messages : map(address, list(message)) = Map.lookup_default(Call.caller, state.messages, {})
     let old_state_receiver_messages : map(address, list(message)) = Map.lookup_default(receiver, state.messages, {})
 
@@ -120,53 +100,30 @@ payable contract SuperChat =
     let new_state_senders_message : map(address, list(message)) = old_state_senders_messages{ [receiver] = new_single_sender_messages }
     let new_state_receivers_message : map(address, list(message)) = old_state_receiver_messages{ [Call.caller] = new_single_receiver_messages }
 
-    let new_updated_state : map(address, map(address, list(message))) = state.messages{ [Call.caller] = new_state_senders_message, [receiver] = new_state_receivers_message }
-    put(state{ messages = new_updated_state })
+    let updated_message_state : map(address, map(address, list(message))) = state.messages{ [Call.caller] = new_state_senders_message, [receiver] = new_state_receivers_message }
+    updated_message_state
+
+  public stateful entrypoint send_message(receiver: address, content': string) : message =
+    let new_message : message = { content = content', category = "message", amount = 0, time = Chain.timestamp, sender = Call.caller }
+    let new_message_state = update_message_state(receiver, new_message)
+    
+    put(state{ messages = new_message_state })
     new_message
-
-  entrypoint get_user_messages() : map(address, list(message)) =
-    Map.lookup_default(Call.caller, state.messages, {})
-
-  entrypoint get_user_friend_messages(friend_address: address) : list(message) =
-    Map.lookup_default(friend_address, get_user_messages(), [])
-
-  entrypoint get_all_messages() : map(address, map(address, list(message))) = 
-    check_admin()
-    state.messages
-
-  payable stateful entrypoint send_fund(receiver: address, description': string) : fund =
-    require(get_user_balance() > Call.value, "Insufficient Funds")
-
-    let new_fund : fund = { sender = Call.caller, time = Chain.timestamp, amount = Call.value, description = description' }
-    let old_state_senders_funds : map(address, list(fund)) = Map.lookup_default(Call.caller, state.funds, {})
-    let old_state_receiver_funds : map(address, list(fund)) = Map.lookup_default(receiver, state.funds, {})
-
-    let old_single_receiver_funds : list(fund) = Map.lookup_default(Call.caller, old_state_receiver_funds, [])
-    let old_single_sender_funds : list(fund) = Map.lookup_default(receiver, old_state_senders_funds, [])
-
-    let new_single_receiver_funds : list(fund) = new_fund::old_single_receiver_funds
-    let new_single_sender_funds : list(fund) = new_fund::old_single_sender_funds
-
-    let new_state_senders_fund : map(address, list(fund)) = old_state_senders_funds{ [receiver] = new_single_sender_funds }
-    let new_state_receivers_fund : map(address, list(fund)) = old_state_receiver_funds{ [Call.caller] = new_single_receiver_funds }
-
-    let new_updated_state : map(address, map(address, list(fund))) = state.funds{ [Call.caller] = new_state_senders_fund, [receiver] = new_state_receivers_fund }
-    Chain.spend(receiver, Call.value)
-    put(state{ funds = new_updated_state })
-    new_fund
 
   private function get_user_balance() : int = Chain.balance(Call.caller)
 
-  entrypoint get_user_funds() : map(address, list(fund)) =
-    Map.lookup_default(Call.caller, state.funds, {})
+  public payable stateful entrypoint send_fund(receiver: address, description': string) : message =
+    require(get_user_balance() > Call.value, "Insufficient Funds")
 
-  entrypoint get_user_friend_fund(friend_address: address) : list(fund) =
-    Map.lookup_default(friend_address, get_user_funds(), [])
+    let new_fund_message : message = { content = description', category = "fund", amount = Call.value, time = Chain.timestamp, sender = Call.caller }
+    let new_message_state = update_message_state(receiver, new_fund_message)
 
-  entrypoint get_contract_balance() : int = 
-    check_admin()
-    Contract.balance
+    Chain.spend(receiver, Call.value)
+    put(state{ messages = new_message_state })
+    new_fund_message
 
-  entrypoint get_all_funds() : map(address, map(address, list(fund))) = 
-    check_admin()
-    state.funds
+  private function get_user_messages() : map(address, list(message)) =
+    Map.lookup_default(Call.caller, state.messages, {})
+
+  public entrypoint get_user_friend_messages(friend_address: address) : list(message) =
+    Map.lookup_default(friend_address, get_user_messages(), [])

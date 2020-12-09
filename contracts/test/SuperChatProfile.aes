@@ -1,0 +1,28 @@
+@compiler >= 4
+
+contract SuperChatProfile =
+
+  record user =
+    { name  : string,
+      about : string,
+      image : string,
+      owner : address }
+
+  record state = { profile : map(address, user) }
+
+  stateful entrypoint init() : state = { profile = {} }
+
+  public stateful entrypoint register_or_update_profile(name': string, about': string, image': string, owner': address) : user =
+    let user_profile : user = { name = name', about = about', image = image', owner = owner' }
+    put(state{ profile[owner'] = user_profile })
+    user_profile
+
+  public entrypoint empty_profile(caller_address: address) : user =
+    { name = "", about = "", image = "", owner = caller_address }
+
+  public entrypoint get_profile(caller_address: address) : user =
+    Map.lookup_default(Call.caller, state.profile, empty_profile(caller_address))
+
+  public entrypoint get_all_profile(caller_address: address) : map(address, user) =
+    require(Map.member(caller_address, state.profile), "Unauthorized Access")
+    state.profile

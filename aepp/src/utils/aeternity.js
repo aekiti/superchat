@@ -4,8 +4,6 @@ import BrowserWindowMessageConnection from "@aeternity/aepp-sdk/es/utils/aepp-wa
 import profileContractDetails from "../configs/profileContractDetails";
 import friendContractDetails from "../configs/friendContractDetails";
 import messageContractDetails from "../configs/messageContractDetails";
-import fundContractDetails from "../configs/fundContractDetails";
-import adminContractDetails from "../configs/adminContractDetails";
 import nodeConfig from "../configs/nodeConfig";
 
 let sdk,
@@ -13,9 +11,7 @@ let sdk,
 
 let profileContract,
   friendContract,
-  messageContract,
-  fundContract,
-  adminContract;
+  messageContract;
 
 const scanForWallets = async () => {
   if (!sdk) throw new Error("Init sdk first");
@@ -29,10 +25,10 @@ const scanForWallets = async () => {
       if (!newWallet) return;
       await sdk.connectToWallet(await newWallet.getConnection());
       await sdk.subscribeAddress("subscribe", "current");
-      let userAddress = sdk.rpcClient.getCurrentAccount();
-      if (!userAddress) return;
+      let address = sdk.rpcClient.getCurrentAccount();
+      if (!address) return;
       detector.stopScan();
-      resolve(userAddress);
+      resolve(address);
     });
   });
 };
@@ -40,49 +36,22 @@ const scanForWallets = async () => {
 const initSuperchatContractIfNeeded = async () => {
   if (!sdk) throw new Error("Init sdk first");
   if (!profileContract) {
-    profileContract = await sdk.getContractInstance(
-      profileContractDetails.contractSource,
-      {
-        contractAddress: profileContractDetails.contractAddress,
-      }
-    );
+    profileContract = await sdk.getContractInstance(profileContractDetails.contractSource, {
+      contractAddress: profileContractDetails.contractAddress
+    });
     contractInstances.profileInstance = profileContract;
   }
   if (!friendContract) {
-    friendContract = await sdk.getContractInstance(
-      friendContractDetails.contractSource,
-      {
-        contractAddress: friendContractDetails.contractAddress,
-      }
-    );
+    friendContract = await sdk.getContractInstance(friendContractDetails.contractSource, {  
+      contractAddress: friendContractDetails.contractAddress
+    });
     contractInstances.friendInstance = friendContract;
   }
   if (!messageContract) {
-    messageContract = await sdk.getContractInstance(
-      messageContractDetails.contractSource,
-      {
-        contractAddress: messageContractDetails.contractAddress,
-      }
-    );
+    messageContract = await sdk.getContractInstance(messageContractDetails.contractSource, {  
+      contractAddress: messageContractDetails.contractAddress
+    });
     contractInstances.messageInstance = messageContract;
-  }
-  if (!fundContract) {
-    fundContract = await sdk.getContractInstance(
-      fundContractDetails.contractSource,
-      {
-        contractAddress: fundContractDetails.contractAddress,
-      }
-    );
-    contractInstances.fundInstance = fundContract;
-  }
-  if (!adminContract) {
-    adminContract = await sdk.getContractInstance(
-      adminContractDetails.contractSource,
-      {
-        contractAddress: adminContractDetails.contractAddress,
-      }
-    );
-    contractInstances.adminInstance = adminContract;
   }
 };
 

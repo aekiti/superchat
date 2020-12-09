@@ -1,0 +1,55 @@
+@compiler >= 4
+
+payable contract SuperChatMessage =
+
+  record message =
+    { content  : string,
+      category : string,
+      amount   : int,
+      time     : int,
+      sender   : address }
+
+  record state = { messages : map(address, map(address, list(message))) }
+
+  stateful entrypoint init() : state = { messages = {} }
+
+  private function update_message_state(caller_address: address, receiver: address, new_message: message) : map(address, map(address, list(message))) =
+    let old_state_senders_messages : map(address, list(message)) = Map.lookup_default(caller_address, state.messages, {})
+    let old_state_receiver_messages : map(address, list(message)) = Map.lookup_default(receiver, state.messages, {})
+
+    let old_single_receiver_messages : list(message) = Map.lookup_default(caller_address, old_state_receiver_messages, [])
+    let old_single_sender_messages : list(message) = Map.lookup_default(receiver, old_state_senders_messages, [])
+
+    let new_single_receiver_messages : list(message) = new_message::old_single_receiver_messages
+    let new_single_sender_messages : list(message) = new_message::old_single_sender_messages
+
+    let new_state_senders_message : map(address, list(message)) = old_state_senders_messages{ [receiver] = new_single_sender_messages }
+    let new_state_receivers_message : map(address, list(message)) = old_state_receiver_messages{ [caller_address] = new_single_receiver_messages }
+
+    let updated_message_state : map(address, map(address, list(message))) = state.messages{ [caller_address] = new_state_senders_message, [receiver] = new_state_receivers_message }
+    updated_message_state
+
+  public stateful entrypoint send_message(caller_address: address, receiver: address, content': string) : message =
+    let new_message : message = { content = content', category = "message", amount = 0, time = Chain.timestamp, sender = caller_address }
+    let new_message_state = update_message_state(caller_address, receiver, new_message)
+    
+    put(state{ messages = new_message_state })
+    new_message
+
+  private function get_user_balance(caller_address: address) : int = Chain.balance(caller_address)
+
+  public payable stateful entrypoint send_fund(caller_address: address,receiver: address, description': string) : message =
+    require(get_user_balance(caller_address) > Call.value, "Insufficient Funds")
+
+    let new_fund_message : message = { content = description', category = "fund", amount = Call.value, time = Chain.timestamp, sender = caller_address }
+    let new_message_state = update_message_state(caller_address, receiver, new_fund_message)
+
+    Chain.spend(receiver, Call.value)
+    put(state{ messages = new_message_state })
+    new_fund_message
+
+  private function get_user_messages(caller_address: address) : map(address, list(message)) =
+    Map.lookup_default(caller_address, state.messages, {})
+
+  public entrypoint get_user_friend_messages(caller_address: address, friend_address: address) : list(message) =
+    Map.lookup_default(friend_address, get_user_messages(caller_address), [])

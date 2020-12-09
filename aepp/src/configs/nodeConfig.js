@@ -1,5 +1,5 @@
 export default {
-  url: 'https://sdk-testnet.aepps.com',
-  internalUrl: 'https://sdk-testnet.aepps.com',
+  url: 'https://testnet.aeternal.io',
+  internalUrl: 'https://testnet.aeternal.io',
   compilerUrl: 'https://latest.compiler.aepps.com'
 }

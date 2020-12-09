@@ -23,6 +23,7 @@ const App = ({ state, dispatch }) => {
   useEffect(() => {
     (async () => {
       let resp = await initSdk();
+      console.log('InitSDK', resp);
       dispatch(addUserAddress(resp.userAddress)); // add user address to store
       dispatch(addSDK(resp.sdk)); // add the SDK object to store
       dispatch(addContractInstances(resp.contractInstances)); // add contract instances to store
@@ -31,6 +32,7 @@ const App = ({ state, dispatch }) => {
       let getProfile = (
         await resp.contractInstances.profileInstance.methods.get_profile()
       ).decodedResult;
+      console.log('User Profile', getProfile);
 
       // Empty profile
       if (getProfile.name === "") {
@@ -39,9 +41,10 @@ const App = ({ state, dispatch }) => {
             `https://raendom-backend.z52da5wt.xyz/profile/${resp.userAddress}`
           );
           let response = await getSHProfile.json();
+          console.log('Superhero Profile', response);
 
           // Save user profile to blockchain
-          await resp.contractInstances.profileInstance.methods.register_profile(
+          await resp.contractInstances.profileInstance.methods.register_or_update_profile(
             response.preferredChainName || "false",
             response.biography || "false",
             response.image || "false"
