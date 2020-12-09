@@ -1,5 +1,3 @@
-@compiler >= 4
-
 contract ProfileContract =
   record user = { name  : string, about : string, image : string, owner : address }
   entrypoint empty_profile : () => user

@@ -1,29 +1,29 @@
 export default {
-  contractAddress: "ct_2r33qqDng9zmiiM9dz8VM5qygWQCRAXQpjByazi5QhmVFftYH5",
+  contractAddress: "ct_aFvQ6wzDF6ro9Fr6FzSAVp5BGio4KfNwEStDBrfAgaRzLHXgi",
   contractSource: `contract SuperChatProfile =
-  
-    record user =
-      { name  : string,
-        about : string,
-        image : string,
-        owner : address }
-  
-    record state = { profile : map(address, user) }
-  
-    stateful entrypoint init() : state = { profile = {} }
-  
-    public stateful entrypoint register_or_update_profile(name': string, about': string, image': string) : user =
-      let user_profile : user = { name = name', about = about', image = image', owner = Call.caller }
-      put(state{ profile[Call.caller] = user_profile })
-      user_profile
-  
-    public entrypoint empty_profile() : user =
-      { name = "", about = "", image = "", owner = Call.caller }
-  
-    public entrypoint get_profile() : user =
-      Map.lookup_default(Call.caller, state.profile, empty_profile())
-  
-    public entrypoint get_all_profile() : map(address, user) =
-      require(Map.member(Call.origin, state.profile), "Unauthorized Access")
-      state.profile`,
+
+  record user =
+    { name  : string,
+      about : string,
+      image : string,
+      owner : address }
+
+  record state = { profile : map(address, user) }
+
+  stateful entrypoint init() : state = { profile = {} }
+
+  public stateful entrypoint register_or_update_profile(name': string, about': string, image': string) : user =
+    let user_profile : user = { name = name', about = about', image = image', owner = Call.caller }
+    put(state{ profile[Call.caller] = user_profile })
+    user_profile
+
+  public entrypoint empty_profile() : user =
+    { name = "", about = "", image = "", owner = Call.origin }
+
+  public entrypoint get_profile() : user =
+    Map.lookup_default(Call.caller, state.profile, empty_profile())
+
+  public entrypoint get_all_profile() : map(address, user) =
+    require(Map.member(Call.origin, state.profile), "Unauthorized Access")
+    state.profile`,
 };

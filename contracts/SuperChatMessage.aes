@@ -1,5 +1,3 @@
-@compiler >= 4
-
 payable contract SuperChatMessage =
 
   record message =

@@ -24,7 +24,6 @@ const App = ({ state, dispatch }) => {
   useEffect(() => {
     (async () => {
       let resp = await initSdk();
-      console.log("InitSDK", resp);
       dispatch(addUserAddress(resp.userAddress)); // add user address to store
       dispatch(addSDK(resp.sdk)); // add the SDK object to store
       dispatch(addContractInstances(resp.contractInstances)); // add contract instances to store

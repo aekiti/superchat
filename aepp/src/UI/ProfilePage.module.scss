@@ -2,7 +2,11 @@
 
 .container {
 	padding: 2rem;
-	padding-bottom: 3rem;
+  padding-bottom: 3rem;
+  
+  @media screen and (min-width: 768px) {
+		margin-top: 7rem;
+	}
 }
 
 .profileImg {
@@ -15,8 +19,8 @@
 	height: 10rem;
 
 	@media screen and (min-width: 768px) {
-		width: 7rem;
-		height: 7rem;
+		width: 10rem;
+		height: 10rem;
 	}
 
 	img {
@@ -27,7 +31,7 @@
 }
 
 .info {
-	margin-top: 2rem;
+	margin-top: 4rem;
 
 	span {
 		color: $primaryColor;
@@ -37,7 +41,7 @@
 	p {
 		font-size: 1.15rem;
 		/*color: $primaryColor;*/
-		margin-bottom: 1rem;
+		margin-bottom: 2rem;
 		overflow-wrap: break-word;
 		word-wrap: break-word;
 	}
