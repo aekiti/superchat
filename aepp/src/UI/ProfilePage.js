@@ -9,7 +9,6 @@ const ProfilePage = ({
 	userProfile: { profileImg, username, userAddress, about },
 	isFetchingProfile,
 }) => {
-	console.log(isFetchingProfile);
 	// Check for false values
 	if (username === "false") username = "";
 	if (profileImg === "false") profileImg = "";

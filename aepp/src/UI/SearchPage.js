@@ -1,11 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
 import styles from "./SearchPage.module.scss";
 import { motion } from "framer-motion";
+import Spinner from "../components/Spinner.js";
 
-const SearchPage = () => {
+const SearchPage = ({ friendRequests, friends, isFetchingMessages }) => {
 	const runQuery = (query) => {
 		console.log(query);
 	};
+
+	if (isFetchingMessages) return <Spinner message="Loading friends..." />;
 
 	return (
 		<motion.section
@@ -37,4 +41,9 @@ const SearchPage = () => {
 	);
 };
 
-export default SearchPage;
+const mapStateToProps = (state) => ({
+	friendRequests: state.friendRequests,
+	friends: state.friends,
+	isFetchingMessages: state.isFetchingMessages,
+});
+export default connect(mapStateToProps, null)(SearchPage);

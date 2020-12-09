@@ -28,6 +28,10 @@ const addFriendRequests = (friendList) => ({
 	payload: friendList,
 });
 
+const setFetchingMessages = () => ({
+	type: "SET_FETCHING_MESSAGES",
+});
+
 const setFetchingProfile = () => ({
 	type: "SET_FETCHING_PROFILE",
 });
@@ -43,6 +47,7 @@ export {
 	addUserImage,
 	addUserAddress,
 	addFriendRequests,
+	setFetchingMessages,
 	setFetchingProfile,
 	setFetchingFrndReq,
 };

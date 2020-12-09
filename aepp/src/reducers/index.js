@@ -1,7 +1,7 @@
 import actionTypes from "../actions/actionTypes.js";
 
 const initialState = {
-	// isFetchingMessages: true
+	isFetchingMessages: true,
 	isFetchingFrndReq: true,
 	isFetchingProfile: true,
 	contractInstances: {},
@@ -9,6 +9,7 @@ const initialState = {
 	messages: [],
 	sdk: {},
 	friendRequests: [],
+	friends: [],
 };
 
 const rootReducer = (state = initialState, action) => {

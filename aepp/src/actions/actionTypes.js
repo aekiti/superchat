@@ -30,6 +30,12 @@ const addFriendRequests = (state, payload) => {
 	return newState;
 };
 
+const setFetchingMessages = (state) => {
+	let newState = Object.assign({}, state);
+	newState.isFetchingMessages = !newState.isFetchingMessages;
+	return newState;
+};
+
 const setFetchingProfile = (state) => {
 	let newState = Object.assign({}, state);
 	newState.isFetchingProfile = !newState.isFetchingProfile;
@@ -48,6 +54,7 @@ let actionTypes = {
 	ADD_CONTRACT_INSTANCES: addContractInstances,
 	ADD_USER_PROFILE: addUserProfile,
 	ADD_FRIEND_REQUESTS: addFriendRequests,
+	SET_FETCHING_MESSAGES: setFetchingMessages,
 	SET_FETCHING_PROFILE: setFetchingProfile,
 	SET_FETCHING_FRND_REQ: setFetchingFrndReq,
 };
