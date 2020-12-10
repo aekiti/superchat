@@ -1,5 +1,14 @@
 @import "../_variable";
 
+.container {
+	padding: 2rem;
+	position: relative;
+	height: 100%;
+	user-select: none;
+	overflow: auto;
+	padding-bottom: 4rem;
+}
+
 .body {
 	display: flex;
 	align-items: center;
@@ -33,9 +42,8 @@
 }
 .username {
 }
-
-.lastMessage {
-	text-overflow: ellipsis;
+.about {
 	white-space: nowrap;
+	text-overflow: ellipsis;
 	overflow: hidden;
 }

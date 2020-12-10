@@ -8,8 +8,6 @@ const getFriendRequest = async (friendInstance, dispatch) => {
 	let frndReq = (await friendInstance.methods.get_friend_request())
 		.decodedResult;
 
-	console.log(frndReq);
-
 	dispatch(addFriendRequests(frndReq));
 	dispatch(setFetchingFrndReq()); // remove spinner
 };

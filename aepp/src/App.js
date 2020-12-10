@@ -10,6 +10,7 @@ import {
 } from "./actions/actionCreator.js";
 import getUserProfile from "./utils/getUserProfile.js";
 import getFriendRequest from "./utils/getFriendRequest.js";
+import getFriends from "./utils/getFriends.js";
 
 import "./App.css";
 import Home from "./UI/HomePage.js";
@@ -18,7 +19,6 @@ import Search from "./UI/SearchPage.js";
 import Chat from "./UI/ChatPage.js";
 import FriendRequest from "./UI/FriendRequest.js";
 import FooterNav from "./components/FooterNav.js";
-// import ProfileBoard from "./components/ProfileBoard.js";
 
 const App = ({ state, dispatch }) => {
   useEffect(() => {
@@ -36,8 +36,9 @@ const App = ({ state, dispatch }) => {
       );
       // Get friend requests
       getFriendRequest(resp.contractInstances.friendInstance, dispatch);
-
       // Fetch all messages
+      // Get all friends
+      getFriends(resp.contractInstances.friendInstance, dispatch);
     })();
   }, [dispatch]);
 

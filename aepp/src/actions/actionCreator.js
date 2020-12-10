@@ -28,8 +28,9 @@ const addFriendRequests = (friendList) => ({
 	payload: friendList,
 });
 
-const setFetchingMessages = () => ({
-	type: "SET_FETCHING_MESSAGES",
+const addFriends = (frnds) => ({
+	type: "ADD_FRIENDS",
+	payload: frnds,
 });
 
 const setFetchingProfile = () => ({
@@ -40,6 +41,10 @@ const setFetchingFrndReq = () => ({
 	type: "SET_FETCHING_FRND_REQ",
 });
 
+const setFetchingFrnds = () => ({
+	type: "SET_FETCHING_FRNDS",
+});
+
 export {
 	addContractInstances,
 	addSDK,
@@ -47,7 +52,8 @@ export {
 	addUserImage,
 	addUserAddress,
 	addFriendRequests,
-	setFetchingMessages,
+	addFriends,
 	setFetchingProfile,
 	setFetchingFrndReq,
+	setFetchingFrnds,
 };

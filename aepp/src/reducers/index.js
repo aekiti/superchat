@@ -1,7 +1,7 @@
 import actionTypes from "../actions/actionTypes.js";
 
 const initialState = {
-	isFetchingMessages: true,
+	isFetchingFrnds: true,
 	isFetchingFrndReq: true,
 	isFetchingProfile: true,
 	contractInstances: {},
