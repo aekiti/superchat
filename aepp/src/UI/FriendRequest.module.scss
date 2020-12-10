@@ -27,8 +27,12 @@
 		box-shadow: 0 0 6px rgba($textColor, 0.5);
 	}
 
+	@media only screen and (min-width: 640px) {
+		right: 20%;
+	}
+
 	@media only screen and (min-width: 768px) {
-		right: 15%;
+		right: 25%;
 	}
 
 	@media only screen and (min-width: 992px) {

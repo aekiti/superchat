@@ -4,21 +4,16 @@
 	padding: 2rem;
 	height: 100%;
 	padding-bottom: 3rem;
+	overflow: auto;
 }
 
 .profileImg {
-	/*border: 1px solid #eee;*/
 	box-shadow: 0 0 12px rgba($textColor, 0.5);
 	border-radius: 50%;
 	overflow: hidden;
 	margin: auto;
 	width: 10rem;
 	height: 10rem;
-
-	@media screen and (min-width: 768px) {
-		width: 10rem;
-		height: 10rem;
-	}
 
 	img {
 		display: block;
@@ -28,7 +23,8 @@
 }
 
 .info {
-	margin-top: 4rem;
+	margin-top: 3rem;
+	margin-bottom: 4rem;
 
 	span {
 		color: $primaryColor;
@@ -38,7 +34,7 @@
 	p {
 		font-size: 1.15rem;
 		/*color: $primaryColor;*/
-		margin-bottom: 2rem;
+		margin-bottom: 1rem;
 		overflow-wrap: break-word;
 		word-wrap: break-word;
 	}

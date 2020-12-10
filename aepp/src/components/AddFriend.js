@@ -34,7 +34,9 @@ const AddFriend = ({ setShowModal, friendInstance }) => {
 			>
 				<header className={styles.header}>
 					<h4>Send New Friend Request</h4>
-					<p onClick={() => setShowModal(false)}>&#10005;</p>
+					<p className={styles.closeModal} onClick={() => setShowModal(false)}>
+						&#10005;
+					</p>
 				</header>
 				<div className={styles.body}>
 					<form
@@ -51,7 +53,9 @@ const AddFriend = ({ setShowModal, friendInstance }) => {
 							onChange={(e) => setFriendAddr(e.target.value)}
 						/>
 						<p style={{ color: "#ff0000" }}>{errorMsg}</p>
-						<button type="submit">Send request</button>
+						<button type="submit" className={styles.btn}>
+							Send request
+						</button>
 					</form>
 				</div>
 			</motion.div>

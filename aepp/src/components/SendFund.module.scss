@@ -1,0 +1,44 @@
+@import "./AddFriend.module.scss";
+
+.modalOverlay {
+	background: rgba($bgColor, 0.8);
+}
+
+.modal {
+	margin: auto;
+	padding: 1rem;
+	background: $bgColor;
+	color: $textColor;
+	position: relative;
+
+	input {
+		width: 100%;
+		display: block;
+		margin: 0.15rem auto 1rem;
+		background: transparent;
+		color: $textColor;
+		caret-color: $textColor;
+		padding: 0.25rem;
+		border-radius: 5px;
+		border: 1px solid $textColor;
+	}
+}
+
+.header {
+	padding: 1rem;
+}
+
+.closeModal {
+	background: $bgColor;
+	box-shadow: 0 0 5px rgba($textColor, 0.5);
+	color: $textColor;
+}
+
+.btn {
+	background: $textColor;
+	color: $bgColor;
+
+	&:hover {
+		box-shadow: 0 2px 4px rgba($textColor, 0.5);
+	}
+}

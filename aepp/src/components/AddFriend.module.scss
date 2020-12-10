@@ -29,34 +29,36 @@
 		text-align: center;
 		color: $bgColor;
 	}
+}
 
-	p {
-		background: white;
-		font-size: 2rem;
-		border-radius: 50%;
-		box-shadow: 0 0 5px rgba(100, 100, 100, 0.5);
-		height: 3rem;
-		width: 3rem;
-		text-align: center;
-		cursor: pointer;
-		position: absolute;
-		top: -100%;
+.closeModal {
+	background: white;
+	font-size: 2rem;
+	border-radius: 50%;
+	border: none;
+	box-shadow: 0 0 5px rgba(100, 100, 100, 0.5);
+	height: 3rem;
+	width: 3rem;
+	text-align: center;
+	cursor: pointer;
+	position: absolute;
+	top: -100%;
+	right: -10%;
+	color: $bgColor;
+
+	@media screen and (min-width: 640px) {
+		right: -8%;
+	}
+
+	@media screen and (min-width: 768px) {
+		right: -6%;
+	}
+
+	@media screen and (min-width: 992px) {
 		right: -10%;
-		color: $bgColor;
-
-		@media screen and (min-width: 640px) {
-			right: -8%;
-		}
-
-		@media screen and (min-width: 768px) {
-			right: -6%;
-		}
-
-		@media screen and (min-width: 992px) {
-			right: -10%;
-		}
 	}
 }
+
 .body {
 	input,
 	label,
@@ -72,18 +74,18 @@
 		width: 100%;
 		margin-bottom: 0.5rem;
 	}
+}
 
-	button {
-		cursor: pointer;
-		background: $bgColor;
-		color: $textColor;
-		border: none;
-		padding: 0.5rem;
-		border-radius: 5px;
-		transition: box-shadow 0.2s linear;
+.btn {
+	cursor: pointer;
+	background: $bgColor;
+	color: $textColor;
+	border: none;
+	padding: 0.5rem;
+	border-radius: 5px;
+	transition: box-shadow 0.2s linear;
 
-		&:hover {
-			box-shadow: 0 2px 4px rgba($bgColor, 0.5);
-		}
+	&:hover {
+		box-shadow: 0 2px 4px rgba($bgColor, 0.5);
 	}
 }

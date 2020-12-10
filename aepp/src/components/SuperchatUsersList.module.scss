@@ -1,14 +1,15 @@
 @import "../_variable";
 
 .container {
-  /*padding: 5rem 2rem 2rem;*/
+	/*padding: 5rem 2rem 2rem;*/
 	margin-bottom: 4rem;
 }
 
 .header {
-  padding: 0.35rem;
+	padding: 0.35rem;
 	box-shadow: 0 3px 5px rgba(100, 100, 100, 0.6);
 	background: #fff;
+	border-radius: 5px;
 }
 
 .input {
@@ -18,11 +19,12 @@
 	outline: none;
 	border: none;
 	background: transparent;
-	color: #999;
-	transition: color 0.2s linear;
+	color: #777;
+	transition: all 0.2s linear;
 
 	&:focus {
-		color: #333;
+		color: #222;
+		letter-spacing: 0.75px;
 	}
 }
 
@@ -77,4 +79,3 @@
 	background: transparent;
 	color: $primaryColor;
 }
-

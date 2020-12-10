@@ -4,19 +4,21 @@
 	height: 100%;
 	/*padding: 0 1rem;*/
 	padding-bottom: 3rem;
+	overflow: auto;
 }
 
 /*ProfileBoard*/
 .profileBoard {
-	/*position: fixed;
+	position: sticky;
 	top: 0;
 	left: 0;
-	width: 100%;*/
-	box-shadow: 0 2px 3px rgba(100, 100, 100, 0.6);
+	width: 100%;
+	box-shadow: 0 2px 3px rgba(#000, 0.4);
 	display: flex;
 	align-items: center;
 	background: $bgColor;
 	padding: 1rem;
+	z-index: 2;
 }
 
 .avatar {
@@ -39,13 +41,43 @@
 }
 
 /* Message Input */
-.msgInput {
-	display: block;
-	width: 100%;
+.chatAction {
+	background: rgba($textColor, 0.08);
+	background: #ccc;
 	padding: 0.25rem;
 	position: absolute;
-	bottom: 10%;
+	bottom: 8.5%;
 	left: 0;
+	width: 100%;
+
+	form {
+		display: flex;
+		align-items: center;
+
+		button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: transparent;
+			border: none;
+			cursor: pointer;
+			transition: all 0.2s linear;
+
+			&:hover {
+				transform: translateY(-2px);
+			}
+		}
+	}
+}
+.sendFund {
+	padding-bottom: 0;
+}
+
+.msgInput {
+	padding: 0.25rem;
+	flex-grow: 2;
+	margin: 0.25rem;
+	outline: none;
 }
 
 /*Message panels*/

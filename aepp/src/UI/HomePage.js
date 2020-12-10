@@ -20,15 +20,15 @@ const HomePage = ({ friends, isFetchingFrnds }) => {
 		>
 			<h2 style={{ marginBottom: "1rem" }}>Your friends</h2>
 			{friends.map((frnd) => (
-				<ProfileBoard profile={frnd} key={frnd.owner} className="red" />
+				<ProfileBoard profile={frnd} key={frnd.owner} />
 			))}
 		</motion.section>
 	);
 };
 
 const ProfileBoard = ({ profile }) => {
-  let { image, name, owner, about } = profile;
-  if (name === "false") name = "";
+	let { image, name, owner, about } = profile;
+	if (name === "false") name = "";
 	return (
 		<Link to={`/chat/${owner}`} className={styles.link}>
 			<section className={styles.body}>
