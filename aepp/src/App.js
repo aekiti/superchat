@@ -50,7 +50,7 @@ const App = ({ state, dispatch }) => {
             <Route path="/" component={Home} exact />
             <Route path="/profile" component={Profile} />
             <Route path="/search" component={Search} />
-            <Route path="/chat" component={Chat} />
+            <Route path="/chat/:friendId" component={Chat} />
             <Route path="/request" component={FriendRequest} />
             <Route component={Home} />
           </Switch>

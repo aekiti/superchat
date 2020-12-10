@@ -38,11 +38,17 @@ body,
 	overflow: hidden;
 }
 
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 640px) {
 	.app-container {
-		width: 80%;
+		width: 70%;
 		margin: auto;
 		box-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+	}
+}
+
+@media only screen and (min-width: 768px) {
+	.app-container {
+		width: 60%;
 	}
 }
 

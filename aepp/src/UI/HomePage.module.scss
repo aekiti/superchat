@@ -9,14 +9,29 @@
 	padding-bottom: 4rem;
 }
 
+.link {
+	text-decoration: none;
+	color: $textColor;
+}
+
 .body {
 	display: flex;
 	align-items: center;
-	/*background: $bgColor;*/
 	padding: 0.5rem;
 	padding: 1rem;
+	margin: 1rem auto;
 	border-radius: 5px;
 	box-shadow: 0 0 2px rgba($textColor, 0.4), 1px 1px 3px rgba($textColor, 0.6);
+	cursor: pointer;
+	transition: all 0.2s linear;
+
+	&:last-of-type {
+		margin-bottom: 4rem;
+	}
+
+	&:hover {
+		transform: translateY(-3px);
+	}
 }
 
 .avatar {
