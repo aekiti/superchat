@@ -14,8 +14,13 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
   // Redirect to homepage is friend profile is not found
   if (frndProfile.length < 1) return <Redirect to="/" />;
 
+  let profileImg;
   if (frndProfile[0].name === "false") frndProfile[0].name = "";
-  const profileImg = `https://raendom-backend.z52da5wt.xyz${frndProfile[0].image}`;
+  if (frndProfile[0].image === "false") {
+    profileImg = logo;
+  } else {
+    profileImg = `https://raendom-backend.z52da5wt.xyz${frndProfile[0].image}`;
+  }
 
 	// Redirect to homepage if app is still loading
   if (isFetchingFrnds) return <Redirect to="/" />;
@@ -36,7 +41,7 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 			exit={{ opacity: 0 }}
 			animate={{ opacity: 1, transition: { duration: 0.5 } }}
 		>
-			<ProfileBoard avatar={profileImg || logo} username={frndProfile[0].name || "Fellow superhero"} />
+			<ProfileBoard avatar={profileImg} username={frndProfile[0].name || "Fellow superhero"} address={frndProfile[0].owner} />
 
 			<div className={styles.chatAction}>
 				<form
@@ -107,14 +112,17 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 	);
 };
 
-const ProfileBoard = ({ avatar, username }) => {
+const ProfileBoard = ({ avatar, username, address }) => {
 	return (
 		<section className={styles.profileBoard}>
 			<figure className={styles.avatar}>
-				<img src={avatar} alt="" />
+				<img src={avatar} alt={username} />
 			</figure>
 
-			<h4 className={styles.username}>{username}</h4>
+      <aside className={styles.textArea}>
+        <h4 className={styles.username}>{username || "Fellow superhero"}</h4>
+        <p className={styles.about}>{address}</p>
+      </aside>
 		</section>
 	);
 };

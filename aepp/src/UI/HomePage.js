@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { motion } from "framer-motion";
 import styles from "./HomePage.module.scss";
 import Spinner from "../components/Spinner.js";
+import logo from "../assets/logo/superhero.svg";
 
 const HomePage = ({ friends, isFetchingFrnds }) => {
 	if (isFetchingFrnds) return <Spinner message="Loading friends..." />;
@@ -27,14 +28,20 @@ const HomePage = ({ friends, isFetchingFrnds }) => {
 };
 
 const ProfileBoard = ({ profile }) => {
-	let { image, name, owner, about } = profile;
-	if (name === "false") name = "";
+  let { image, name, owner, about } = profile;
+  let imgLink;
+  if (name === "false") name = "";
+  if (image === "false") {
+    imgLink = logo;
+  } else {
+    imgLink = `https://raendom-backend.z52da5wt.xyz${image}`;
+  }
 	return (
 		<Link to={`/chat/${owner}`} className={styles.link}>
 			<section className={styles.body}>
 				<figure className={styles.avatar}>
 					<img
-						src={`https://raendom-backend.z52da5wt.xyz${image}`}
+						src={imgLink}
 						alt={name || "Fellow superhero"}
 					/>
 				</figure>

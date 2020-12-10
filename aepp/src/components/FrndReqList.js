@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { setFetchingFrndReq } from "../actions/actionCreator.js";
 import getFriendRequest from "../utils/getFriendRequest.js";
 import styles from "./FrndReqList.module.scss";
+import logo from "../assets/logo/superhero.svg";
 
 const FrndReqList = ({ friendRequests, friendInstance, dispatch }) => {
 	return (
@@ -22,7 +23,13 @@ const FrndReqList = ({ friendRequests, friendInstance, dispatch }) => {
 };
 
 const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
-  const imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
+  let imgLink;
+  if (profile.name === "false") profile.name = "";
+  if (profile.image === "false") {
+    imgLink = logo;
+  } else {
+    imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
+  }
 
 	const rejectRequest = async () => {
 		// show spinner
@@ -46,10 +53,10 @@ const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
 	return (
 		<section className={styles.profileBody}>
 			<figure className={styles.avatar}>
-				<img alt={profile.name} src={imgLink} />
+				<img alt={profile.name || "Fellow superhero"} src={imgLink} />
 			</figure>
 
-			<h4 className={styles.username}>{profile.name}</h4>
+			<h4 className={styles.username}>{profile.name || "Fellow superhero"}</h4>
 
 			<aside className={styles.btnBody}>
 				<button

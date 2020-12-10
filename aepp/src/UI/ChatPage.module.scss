@@ -37,7 +37,17 @@
 	}
 }
 
+.textArea {
+	flex-basis: 70%;
+	overflow: hidden;
+	flex-grow: 2;
+}
 .username {
+}
+.about {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 /* Message Input */

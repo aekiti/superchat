@@ -12,8 +12,7 @@ const getSuperchatUsers = async (profileInstance, dispatch) => {
       dispatch(addSuperchatUsers(users));
       dispatch(setFetchingUsers()); // remove spinner
     })
-    .catch((e) => {
-      console.error(e.decodedError);
+    .catch(() => {
       dispatch(setFetchingUsers()); // remove spinner
     });
 };

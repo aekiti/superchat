@@ -3,11 +3,19 @@ import { connect } from "react-redux";
 import { motion } from "framer-motion";
 import { setFetchingUsers } from "../actions/actionCreator.js";
 import styles from "./SuperchatUsersList.module.scss";
+import logo from "../assets/logo/superhero.svg";
 
-const SuperchatUsersList = ({ users, friendInstance, friends, dispatch }) => {
+const SuperchatUsersList = ({ users, friendInstance, friends, userProfile, dispatch, }) => {
+  let userFriends;
 	const runQuery = (query) => {
 		console.log(query);
-	};
+  };
+  for (let i = 0; i < friends.length; i++) {
+    userFriends = friends[i].owner;
+  }
+  const filteredUser = users.filter(
+    (users) => (users[0] !== userProfile.userAddress && users[0] !== userFriends)
+  );
 
 	return (
 		<motion.section className={styles.container}>
@@ -23,7 +31,9 @@ const SuperchatUsersList = ({ users, friendInstance, friends, dispatch }) => {
 					autoFocus={true}
 				/>
 			</header>
-			{users.map((user) => (
+      <br />
+      <h4>{users.length} total users, {friends.length} total friends</h4>
+			{filteredUser.map((user) => (
 				<ProfilePanel
 					key={user[0]}
 					profile={user[1]}
@@ -36,8 +46,13 @@ const SuperchatUsersList = ({ users, friendInstance, friends, dispatch }) => {
 };
 
 const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
-	if (profile.name === "false") profile.name = "";
-	const imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
+  let imgLink;
+  if (profile.name === "false") profile.name = "";
+  if (profile.image === "false") {
+    imgLink = logo;
+  } else {
+    imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
+  }
 
 	const sendRequest = async () => {
 		// show spinner
@@ -55,15 +70,17 @@ const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
 				<img alt={profile.name || "Fellow superhero"} src={imgLink} />
 			</figure>
 
-			<h4 className={styles.username}>{profile.name || "Fellow superhero"}</h4>
-			{/* <p>{profile.owner}</p> */}
+      <div className={styles.textArea}>
+        <h4 className={styles.username}>{profile.name || "Fellow superhero"}</h4>
+        <p className={styles.about}>{profile.owner}</p>
+      </div>
 
 			<aside className={styles.btnBody}>
 				<button
-					className={`${styles.btn} ${styles.btnSecondary}`}
+					className={styles.roundBtn}
 					onClick={() => sendRequest()}
 				>
-					Send Request
+          +
 				</button>
 			</aside>
 		</section>
@@ -73,6 +90,7 @@ const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
 const mapStateToProps = (state) => ({
 	users: state.users,
 	friendInstance: state.contractInstances.friendInstance,
-	friends: state.friends,
+  friends: state.friends,
+  userProfile: state.userProfile,
 });
 export default connect(mapStateToProps, null)(SuperchatUsersList);

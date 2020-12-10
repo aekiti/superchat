@@ -1,46 +1,20 @@
 const Deployer = require('aeproject-lib').Deployer;
-const contractPath = "./contracts/test/SuperChat.aes";
+const { keyPair, contractPath, users, requestArguments } = require('./config');
 
 describe('Superchat Single Contract', () => {
   let deployer, SuperchatContract;
-  let keyPair = {
-    superchat: wallets[0],
-    alice: wallets[1],
-    bob: wallets[2]
-  };
 
 	before(async () => {
 		deployer = new Deployer('local', keyPair.superchat.secretKey)
   })
 
 	it('Should deploy SuperChat contract', async () => {
-		const deployPromise = deployer.deploy(contractPath)
+		const deployPromise = deployer.deploy(contractPath.superchat)
     await assert.isFulfilled(deployPromise, 'Could not deploy the Superchat Contract');
     SuperchatContract = await Promise.resolve(deployPromise)
   })
 
-  it('Should add 3 profiles to the Superchat contract', async () => {
-    let users = [
-      {
-        name : "User Superchat",
-        about: "Superchat Test User",
-        image: "just_a_test_image_string_for_superchat.png",
-        owner: keyPair.superchat.publicKey
-      },
-      {
-        name : "User Alice",
-        about: "Alice Test User",
-        image: "just_a_test_image_string_for_alice.png",
-        owner: keyPair.alice.publicKey
-      },
-      {
-        name : "User Bob",
-        about: "Bob Test User",
-        image: "just_a_test_image_string_for_bob.png",
-        owner: keyPair.bob.publicKey
-      }
-    ];
-    
+  it('Should add 3 profiles to the Superchat contract', async () => {  
     for (let user = 0; user < users.length; user++) {
       let profile = users[user];
       await SuperchatContract.register_or_update_profile(profile.name, profile.about, profile.image, profile.owner)
@@ -52,19 +26,8 @@ describe('Superchat Single Contract', () => {
   })
 
   it("User Alice & Bob should send friend request to User Superchat for a friend request count of 2", async () => {
-    let arguments = [
-      {
-        caller : keyPair.alice.publicKey,
-        friend: keyPair.superchat.publicKey
-      },
-      {
-        caller : keyPair.bob.publicKey,
-        friend: keyPair.superchat.publicKey
-      }
-    ];
-
-    for (let argument = 0; argument < arguments.length; argument++) {
-      let arg = arguments[argument];
+    for (let argument = 0; argument < requestArguments.length; argument++) {
+      let arg = requestArguments[argument];
       await SuperchatContract.send_friend_request(arg.caller, arg.friend)
     }
 

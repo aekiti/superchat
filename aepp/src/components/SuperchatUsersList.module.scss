@@ -54,6 +54,19 @@
 	}
 }
 
+.textArea {
+	flex-basis: 70%;
+	overflow: hidden;
+	flex-grow: 2;
+}
+.username {
+}
+.about {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
 .btnBody {
 	margin-left: auto;
 }
@@ -78,4 +91,24 @@
 .btnSecondary {
 	background: transparent;
 	color: $primaryColor;
+}
+
+.roundBtn {
+  margin: 0.3rem;
+	border: 2px solid $primaryColor;
+	border-radius: 50%;
+  font: icon;
+  font-size: xx-large;
+	height: 3rem;
+	width: 3rem;
+	background: transparent;
+	color: $primaryColor;
+	cursor: pointer;
+	transition: box-shadow 0.2s linear;
+
+	&:hover {
+    background: $primaryColor;
+    color: #fff;
+		box-shadow: 0 0 6px rgba($textColor, 0.5);
+	}
 }

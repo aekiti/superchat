@@ -1,60 +1,32 @@
 const Deployer = require('aeproject-lib').Deployer;
-const profileContractPath = "./contracts/test/SuperChatProfile.aes";
-const friendContractPath = "./contracts/test/SuperChatFriend.aes";
-const messageContractPath = "./contracts/test/SuperChatMessage.aes";
+const { keyPair, contractPath, users, requestArguments } = require('./config');
 
 describe('Superchat Multiple Contracts', () => {
   let deployer, superchat = {};
-  let keyPair = {
-    superchat: wallets[0],
-    alice: wallets[1],
-    bob: wallets[2]
-  };
 
 	before(async () => {
 		deployer = new Deployer('local', keyPair.superchat.secretKey)
   })
 
 	it('Should deploy SuperChatProfile contract', async () => {
-		const profileDeployPromise = deployer.deploy(profileContractPath)
+		const profileDeployPromise = deployer.deploy(contractPath.profile)
     await assert.isFulfilled(profileDeployPromise, 'Could not deploy the SuperChatProfile Contract');
     superchat.profileContract = await Promise.resolve(profileDeployPromise)
   })
   
   it('Should deploy SuperChatFriend contract', async () => {
-		const friendDeployPromise = deployer.deploy(friendContractPath, [superchat.profileContract.address])
+		const friendDeployPromise = deployer.deploy(contractPath.friend, [superchat.profileContract.address])
     await assert.isFulfilled(friendDeployPromise, 'Could not deploy the SuperChatFriend Contract');
     superchat.friendContract = await Promise.resolve(friendDeployPromise)
   })
   
   it('Should deploy SuperChatMessage contract', async () => {
-		const messageDeployPromise = deployer.deploy(messageContractPath)
+		const messageDeployPromise = deployer.deploy(contractPath.message)
     await assert.isFulfilled(messageDeployPromise, 'Could not deploy the SuperChatMessage Contract');
     superchat.messageContract = await Promise.resolve(messageDeployPromise)
   })
 
   it('Should add 3 profiles using the SuperChatProfile contract', async () => {
-    let users = [
-      {
-        name : "User Superchat",
-        about: "Superchat Test User",
-        image: "just_a_test_image_string_for_superchat.png",
-        owner: keyPair.superchat.publicKey
-      },
-      {
-        name : "User Alice",
-        about: "Alice Test User",
-        image: "just_a_test_image_string_for_alice.png",
-        owner: keyPair.alice.publicKey
-      },
-      {
-        name : "User Bob",
-        about: "Bob Test User",
-        image: "just_a_test_image_string_for_bob.png",
-        owner: keyPair.bob.publicKey
-      }
-    ];
-    
     for (let user = 0; user < users.length; user++) {
       let profile = users[user];
       await superchat.profileContract.register_or_update_profile(profile.name, profile.about, profile.image, profile.owner)
@@ -66,19 +38,8 @@ describe('Superchat Multiple Contracts', () => {
   })
 
   it("User Alice & Bob should send friend request to User Superchat for a friend request count of 2 using the SuperChatFriend contract", async () => {
-    let arguments = [
-      {
-        caller : keyPair.alice.publicKey,
-        friend: keyPair.superchat.publicKey
-      },
-      {
-        caller : keyPair.bob.publicKey,
-        friend: keyPair.superchat.publicKey
-      }
-    ];
-
-    for (let argument = 0; argument < arguments.length; argument++) {
-      let arg = arguments[argument];
+    for (let argument = 0; argument < requestArguments.length; argument++) {
+      let arg = requestArguments[argument];
       await superchat.friendContract.send_friend_request(arg.caller, arg.friend)
     }
 
