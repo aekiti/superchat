@@ -30,6 +30,12 @@ const addFriendRequests = (state, payload) => {
 	return newState;
 };
 
+const addFriends = (state, payload) => {
+	let newState = Object.assign({}, state);
+	newState.friends = [...newState.friends, ...payload];
+	return newState;
+};
+
 const addSuperchatUsers = (state, payload) => {
 	let newState = Object.assign({}, state);
 	newState.users = payload;
@@ -38,7 +44,7 @@ const addSuperchatUsers = (state, payload) => {
 
 const setFetchingMessages = (state) => {
 	let newState = Object.assign({}, state);
-	newState.isFetchingMessages = !newState.isFetchingMessages;
+	newState.friends = [...newState.friends, ...payload];
 	return newState;
 };
 
@@ -54,6 +60,12 @@ const setFetchingFrndReq = (state) => {
 	return newState;
 };
 
+const setFetchingFrnds = (state) => {
+	let newState = Object.assign({}, state);
+	newState.isFetchingFrnds = !newState.isFetchingFrnds;
+	return newState;
+};
+
 const setFetchingUsers = (state) => {
 	let newState = Object.assign({}, state);
 	newState.isFetchingUsers = !newState.isFetchingUsers;
@@ -66,10 +78,12 @@ let actionTypes = {
 	ADD_CONTRACT_INSTANCES: addContractInstances,
 	ADD_USER_PROFILE: addUserProfile,
   ADD_FRIEND_REQUESTS: addFriendRequests,
+  ADD_FRIENDS: addFriends,
   ADD_SUPERCHAT_USERS: addSuperchatUsers,
 	SET_FETCHING_MESSAGES: setFetchingMessages,
 	SET_FETCHING_PROFILE: setFetchingProfile,
   SET_FETCHING_FRND_REQ: setFetchingFrndReq,
+  SET_FETCHING_FRNDS: setFetchingFrnds,
   SET_FETCHING_USERS: setFetchingUsers,
 };
 export default actionTypes;

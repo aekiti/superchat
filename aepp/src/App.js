@@ -10,6 +10,7 @@ import {
 } from "./actions/actionCreator.js";
 import getUserProfile from "./utils/getUserProfile.js";
 import getFriendRequest from "./utils/getFriendRequest.js";
+import getFriends from "./utils/getFriends.js";
 import getSuperchatUsers from "./utils/getSuperchatUsers";
 
 import "./App.css";
@@ -19,7 +20,6 @@ import Search from "./UI/SearchPage.js";
 import Chat from "./UI/ChatPage.js";
 import FriendRequest from "./UI/FriendRequest.js";
 import FooterNav from "./components/FooterNav.js";
-// import ProfileBoard from "./components/ProfileBoard.js";
 
 const App = ({ state, dispatch }) => {
   useEffect(() => {
@@ -41,6 +41,8 @@ const App = ({ state, dispatch }) => {
       getSuperchatUsers(resp.contractInstances.profileInstance, dispatch)
 
       // Fetch all messages
+      // Get all friends
+      getFriends(resp.contractInstances.friendInstance, dispatch);
     })();
   }, [dispatch]);
 
@@ -50,7 +52,7 @@ const App = ({ state, dispatch }) => {
         <AnimatePresence>
           <Switch key={window.location.pathname} location={window.location}>
             <Route path="/" component={Home} exact />
-            <Route path="/chat" component={Chat} />
+            <Route path="/chat/:friendId" component={Chat} />
             <Route path="/profile" component={Profile} />
             <Route path="/request" component={FriendRequest} />
             <Route path="/search" component={Search} />

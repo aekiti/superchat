@@ -1,10 +1,13 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { motion } from "framer-motion";
 import styles from "./ChatPage.module.scss";
 import logo from "../assets/logo/superhero.svg";
 
-const ChatPage = () => {
+const ChatPage = ({ isFetchingFrnds }) => {
+	// Redirect to homepage if app is still loading
+	if (isFetchingFrnds) return <Redirect to="/" />;
 	// Profile Board (w/ send fund)
 	// Received Msg
 	// Sent Msg
@@ -68,5 +71,8 @@ const SentMsg = ({ text, time }) => {
 	);
 };
 
-const mapStateToProps = (state) => ({ friends: state.friends });
+const mapStateToProps = (state) => ({
+	friends: state.friends,
+	isFetchingFrnds: state.isFetchingFrnds,
+});
 export default connect(mapStateToProps, null)(ChatPage);
