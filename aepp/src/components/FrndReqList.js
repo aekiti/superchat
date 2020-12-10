@@ -27,20 +27,19 @@ const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
 	const rejectRequest = async () => {
 		// show spinner
 		dispatch(setFetchingFrndReq());
-
 		// remove friend
 		await friendInstance.methods.reject_friend_request(profile.owner);
-
 		// get new friend request list
 		await getFriendRequest(friendInstance, dispatch);
-
-		console.log("okay");
 	};
 
 	const acceptRequest = async () => {
-		let k = (await friendInstance.methods.accept_friend_request(profile.owner))
-			.decodedResult;
-		console.log(k);
+		// show spinner
+		dispatch(setFetchingFrndReq());
+		// accept friend request
+		await friendInstance.methods.accept_friend_request(profile.owner);
+		// get new friend request list
+		await getFriendRequest(friendInstance, dispatch);
 	};
 
 	// about, image, name, owner
