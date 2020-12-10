@@ -1,27 +1,7 @@
-@import "../_variable";
-
 .container {
-	/*padding: 5rem 2rem 2rem;*/
+	padding: 2rem;
+	position: relative;
 	height: 100%;
-}
-
-.header {
-	padding: 0.35rem;
-	box-shadow: 0 3px 5px rgba(100, 100, 100, 0.6);
-	background: #fff;
-}
-
-.input {
-	padding: 0.5rem;
-	display: block;
-	width: 100%;
-	outline: none;
-	border: none;
-	background: transparent;
-	color: #999;
-	transition: color 0.2s linear;
-
-	&:focus {
-		color: #333;
-	}
+	user-select: none;
+	overflow: auto;
 }

@@ -1,0 +1,80 @@
+@import "../_variable";
+
+.container {
+  /*padding: 5rem 2rem 2rem;*/
+	margin-bottom: 4rem;
+}
+
+.header {
+  padding: 0.35rem;
+	box-shadow: 0 3px 5px rgba(100, 100, 100, 0.6);
+	background: #fff;
+}
+
+.input {
+	padding: 0.5rem;
+	display: block;
+	width: 100%;
+	outline: none;
+	border: none;
+	background: transparent;
+	color: #999;
+	transition: color 0.2s linear;
+
+	&:focus {
+		color: #333;
+	}
+}
+
+.profileBody {
+	display: flex;
+	align-items: center;
+	margin: 1rem auto;
+	padding: 0.5rem;
+	/*border: 1px solid $textColor;*/
+	border-radius: 5px;
+	box-shadow: 0 0 2px rgba($textColor, 0.4), 1px 1px 3px rgba($textColor, 0.6);
+}
+
+.avatar {
+	background: #fff;
+	border-radius: 100%;
+	box-shadow: 0 0 4px rgba(200, 200, 200, 0.9);
+	width: 3rem;
+	height: 3rem;
+	margin-right: 1rem;
+	overflow: hidden;
+
+	img {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.btnBody {
+	margin-left: auto;
+}
+
+.btn {
+	padding: 0.35rem 0.5rem;
+	border: 2px solid $primaryColor;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: all 0.2s linear;
+
+	&:hover {
+		box-shadow: 1px 1px 3px rgba($textColor, 0.7);
+		transform: translateY(-2px);
+	}
+}
+.btnPrimary {
+	margin-right: 1rem;
+	background: $primaryColor;
+	color: $bgColor;
+}
+.btnSecondary {
+	background: transparent;
+	color: $primaryColor;
+}
+

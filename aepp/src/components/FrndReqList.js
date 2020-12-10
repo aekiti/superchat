@@ -23,11 +23,6 @@ const FrndReqList = ({ friendRequests, friendInstance, dispatch }) => {
 
 const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
   const imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
-  
-  (async () => {
-    let userFriends = (await friendInstance.methods.get_friends()).decodedResult
-    console.log("User Friends", userFriends);
-  })();
 
 	const rejectRequest = async () => {
 		// show spinner

@@ -28,6 +28,11 @@ const addFriendRequests = (friendList) => ({
 	payload: friendList,
 });
 
+const addSuperchatUsers = (userList) => ({
+	type: "ADD_SUPERCHAT_USERS",
+	payload: userList,
+});
+
 const setFetchingMessages = () => ({
 	type: "SET_FETCHING_MESSAGES",
 });
@@ -40,14 +45,20 @@ const setFetchingFrndReq = () => ({
 	type: "SET_FETCHING_FRND_REQ",
 });
 
+const setFetchingUsers = () => ({
+	type: "SET_FETCHING_USERS",
+});
+
 export {
 	addContractInstances,
 	addSDK,
 	addUserProfile,
 	addUserImage,
 	addUserAddress,
-	addFriendRequests,
+  addFriendRequests,
+  addSuperchatUsers,
 	setFetchingMessages,
 	setFetchingProfile,
-	setFetchingFrndReq,
+  setFetchingFrndReq,
+  setFetchingUsers,
 };

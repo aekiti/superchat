@@ -10,6 +10,7 @@ import {
 } from "./actions/actionCreator.js";
 import getUserProfile from "./utils/getUserProfile.js";
 import getFriendRequest from "./utils/getFriendRequest.js";
+import getSuperchatUsers from "./utils/getSuperchatUsers";
 
 import "./App.css";
 import Home from "./UI/HomePage.js";
@@ -36,6 +37,8 @@ const App = ({ state, dispatch }) => {
       );
       // Get friend requests
       getFriendRequest(resp.contractInstances.friendInstance, dispatch);
+      // Get Superchat users
+      getSuperchatUsers(resp.contractInstances.profileInstance, dispatch)
 
       // Fetch all messages
     })();
@@ -47,10 +50,10 @@ const App = ({ state, dispatch }) => {
         <AnimatePresence>
           <Switch key={window.location.pathname} location={window.location}>
             <Route path="/" component={Home} exact />
-            <Route path="/profile" component={Profile} />
-            <Route path="/search" component={Search} />
             <Route path="/chat" component={Chat} />
+            <Route path="/profile" component={Profile} />
             <Route path="/request" component={FriendRequest} />
+            <Route path="/search" component={Search} />
             <Route component={Home} />
           </Switch>
           <FooterNav />
