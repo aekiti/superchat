@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import styles from "./SendFund.module.scss";
+import { toAettos } from '@aeternity/aepp-sdk/es/utils/amount-formatter';
 
 const SendFund = ({ receiver, setShowModal, messageInstance }) => {
 	const [amount, setAmount] = useState("");
@@ -19,14 +20,16 @@ const SendFund = ({ receiver, setShowModal, messageInstance }) => {
 		e.preventDefault();
 
 		if (!amount)
-			return setResponse("You can't send a value less than or equal zero (0)");
-
-		try {
-			let resp = await messageInstance.methods.send_fund(receiver, description);
-			setResponse(resp);
-		} catch (e) {
-			setResponse(`Error: ${e}`);
-		}
+      return setResponse("You can't send a value less than or equal zero (0)");
+      
+    let aettosValue = toAettos(amount);
+    await messageInstance.methods.send_fund(receiver, description, { amount: aettosValue }).then((resp) => {
+      console.log(resp);
+      setResponse(resp.decodedResult.content);
+    }).catch((e) => {
+      console.error(2);
+      setResponse(`Error: ${e}`);
+    });
 	};
 
 	return (

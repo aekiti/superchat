@@ -10,10 +10,15 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 	const [showModal, setShowModal] = useState(false);
 	const frndProfile = friends.filter(
 		(frnd) => frnd.owner === match.params.friendId
-	);
+  );
+  // Redirect to homepage is friend profile is not found
+  if (frndProfile.length < 1) return <Redirect to="/" />;
+
+  if (frndProfile[0].name === "false") frndProfile[0].name = "";
+  const profileImg = `https://raendom-backend.z52da5wt.xyz${frndProfile[0].image}`;
 
 	// Redirect to homepage if app is still loading
-	if (isFetchingFrnds) return <Redirect to="/" />;
+  if (isFetchingFrnds) return <Redirect to="/" />;
 
 	const sendFund = () => {
 		setShowModal(!showModal);
@@ -31,7 +36,7 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 			exit={{ opacity: 0 }}
 			animate={{ opacity: 1, transition: { duration: 0.5 } }}
 		>
-			<ProfileBoard avatar={logo} username="Fellow superhero" />
+			<ProfileBoard avatar={profileImg || logo} username={frndProfile[0].name || "Fellow superhero"} />
 
 			<div className={styles.chatAction}>
 				<form
@@ -94,7 +99,7 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 			{showModal && (
 				<SendFund
 					setShowModal={setShowModal}
-					receiver={frndProfile.owner}
+					receiver={frndProfile[0].owner}
 					messageInstance={messageInstance}
 				/>
 			)}

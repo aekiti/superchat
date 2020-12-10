@@ -1,5 +1,5 @@
 export default {
-  contractAddress: "ct_PfBMLbdHDqTWQ7x4eGqyigQxJMFY3G9BnR1qBo1TFyvY6A1r3",
+  contractAddress: "ct_L5bm7VVPLjuSRfxkfKv16vZM93p9QADU1pukHVn6DWgtgAf89",
   contractSource: `contract SuperChatProfile =
 
   record user =

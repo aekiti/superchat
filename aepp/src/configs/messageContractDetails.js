@@ -1,5 +1,5 @@
 export default {
-  contractAddress: "ct_E1mRo7UictrMrLoBm57jHFrio4U82K69KDDnJ28fumrqC4Tp6",
+  contractAddress: "ct_2GGA1UeakRCzVcnv4FcgE7kebMRKyYngfyUKHcwtDP3EsRP66m",
   contractSource: `payable contract SuperChatMessage =
 
   record message =
