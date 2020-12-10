@@ -42,7 +42,7 @@ const addSuperchatUsers = (state, payload) => {
 	return newState;
 };
 
-const setFetchingMessages = (state) => {
+const setFetchingMessages = (state, payload) => {
 	let newState = Object.assign({}, state);
 	newState.friends = [...newState.friends, ...payload];
 	return newState;

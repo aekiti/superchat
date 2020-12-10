@@ -27,19 +27,20 @@ const HomePage = ({ friends, isFetchingFrnds }) => {
 };
 
 const ProfileBoard = ({ profile }) => {
-	let { image, name, owner, about } = profile;
+  let { image, name, owner, about } = profile;
+  if (name === "false") name = "";
 	return (
 		<Link to={`/chat/${owner}`} className={styles.link}>
 			<section className={styles.body}>
 				<figure className={styles.avatar}>
 					<img
 						src={`https://raendom-backend.z52da5wt.xyz${image}`}
-						alt="{name}"
+						alt={name || "Fellow superhero"}
 					/>
 				</figure>
 
 				<aside className={styles.textArea}>
-					<h4 className={styles.username}>{name}</h4>
+					<h4 className={styles.username}>{name || "Fellow superhero"}</h4>
 					<p className={styles.about}>{about}</p>
 				</aside>
 			</section>
