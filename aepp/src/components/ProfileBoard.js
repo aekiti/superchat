@@ -5,7 +5,7 @@ const ProfileBoard = ({ avatar, username, lastMessage }) => {
 	return (
 		<section className={styles.body}>
 			<figure className={styles.avatar}>
-				<img src={avatar} alt="" />
+				<img src={avatar} alt={username} />
 			</figure>
 
 			<aside className={styles.textArea}>

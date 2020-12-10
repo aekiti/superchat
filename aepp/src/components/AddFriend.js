@@ -47,10 +47,10 @@ const AddFriend = ({ setShowModal, friendInstance }) => {
 							type="text"
 							name="address"
 							id="address"
-							placeholder="ak_FfUXsy5X39FYaaWPs3tKBibc4tN1XFoyqDEz9fWybv7j129QR"
+							placeholder="Starts with ak_"
 							onChange={(e) => setFriendAddr(e.target.value)}
 						/>
-						<p style={{ color: "#333" }}>{errorMsg}</p>
+						<p style={{ color: "#ff0000" }}>{errorMsg}</p>
 						<button type="submit">Send request</button>
 					</form>
 				</div>
