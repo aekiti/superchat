@@ -8,6 +8,7 @@ import {
   addContractInstances,
   addSDK,
 } from "./actions/actionCreator.js";
+import getUserBalance from "./utils/getUserBalance";
 import getUserProfile from "./utils/getUserProfile.js";
 import getFriendRequest from "./utils/getFriendRequest.js";
 import getFriends from "./utils/getFriends.js";
@@ -29,6 +30,12 @@ const App = ({ state, dispatch }) => {
       dispatch(addSDK(resp.sdk)); // add the SDK object to store
       dispatch(addContractInstances(resp.contractInstances)); // add contract instances to store
 
+      // Fetch all messages
+      // Get all friends
+      getFriends(resp.contractInstances.friendInstance, dispatch);
+
+      // Get user balance
+      getUserBalance(resp.sdk, resp.userAddress, dispatch)
       // Get user profile
       getUserProfile(
         resp.contractInstances.profileInstance,
@@ -39,10 +46,6 @@ const App = ({ state, dispatch }) => {
       getFriendRequest(resp.contractInstances.friendInstance, dispatch);
       // Get Superchat users
       getSuperchatUsers(resp.contractInstances.profileInstance, dispatch)
-
-      // Fetch all messages
-      // Get all friends
-      getFriends(resp.contractInstances.friendInstance, dispatch);
     })();
   }, [dispatch]);
 

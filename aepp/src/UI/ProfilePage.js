@@ -6,7 +6,7 @@ import styles from "./ProfilePage.module.scss";
 import Spinner from "../components/Spinner.js";
 
 const ProfilePage = ({
-	userProfile: { profileImg, username, userAddress, about },
+	userProfile: { profileImg, username, userAddress, userBalance, about },
 	isFetchingProfile,
 }) => {
 	// Check for false values
@@ -39,8 +39,8 @@ const ProfilePage = ({
 				<span>Address</span>
 				<p>{userAddress || ""}</p>
 
-        {/* <span>Balance</span>
-				<p>{userBalance || ""}</p> */}
+        <span>Balance</span>
+				<p>{userBalance || ""}</p>
 
 				<span>About</span>
 				<p>{about || ""}</p>

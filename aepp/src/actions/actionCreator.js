@@ -23,6 +23,11 @@ const addUserAddress = (address) => ({
 	payload: address,
 });
 
+const addUserBalance = (balance) => ({
+	type: "ADD_USER_BALANCE",
+	payload: balance,
+});
+
 const addFriendRequests = (friendList) => ({
 	type: "ADD_FRIEND_REQUESTS",
 	payload: friendList,
@@ -63,7 +68,8 @@ export {
 	addSDK,
 	addUserProfile,
 	addUserImage,
-	addUserAddress,
+  addUserAddress,
+  addUserBalance,
   addFriendRequests,
   addFriends,
   addSuperchatUsers,

@@ -4,6 +4,12 @@ const addUserAddress = (state, payload) => {
 	return newState;
 };
 
+const addUserBalance = (state, payload) => {
+	let newState = Object.assign({}, state);
+	newState.userProfile.userBalance = payload;
+	return newState;
+};
+
 const addSDK = (state, payload) => {
 	let newState = Object.assign({}, state);
 	newState.sdk = payload;
@@ -73,7 +79,8 @@ const setFetchingUsers = (state) => {
 };
 
 let actionTypes = {
-	ADD_USER_ADDRESS: addUserAddress,
+  ADD_USER_ADDRESS: addUserAddress,
+  ADD_USER_BALANCE: addUserBalance,
 	ADD_SDK: addSDK,
 	ADD_CONTRACT_INSTANCES: addContractInstances,
 	ADD_USER_PROFILE: addUserProfile,
