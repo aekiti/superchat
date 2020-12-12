@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import { connect } from "react-redux";
 import styles from "./MessageBoard.module.scss";
-import { addMessages } from "../actions/actionCreator.js";
 import { toAe } from "@aeternity/aepp-sdk/es/utils/amount-formatter";
 
 const MessageBoard = ({ messages, userAddress }) => {
