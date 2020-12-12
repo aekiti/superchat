@@ -7,7 +7,6 @@ import Spinner from "../components/Spinner.js";
 import logo from "../assets/logo/superhero.svg";
 
 const HomePage = ({ friends, isFetchingFrnds }) => {
-	console.log("HomePage is now mounted");
 	if (isFetchingFrnds) return <Spinner message="Loading friends..." />;
 
 	if (friends.length < 1)

@@ -53,10 +53,10 @@
 /* Message Input */
 .chatAction {
 	background: rgba($textColor, 0.08);
-	background: #ccc;
+	background: #d9d9d9;
 	padding: 0.25rem;
 	position: absolute;
-	bottom: 8.5%;
+	bottom: 5%;
 	left: 0;
 	width: 100%;
 
@@ -69,6 +69,7 @@
 			align-items: center;
 			justify-content: center;
 			background: transparent;
+			color: #2a9cff;
 			border: none;
 			cursor: pointer;
 			transition: all 0.2s linear;

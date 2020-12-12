@@ -16,7 +16,6 @@ const ChatPage = ({
 	userAddress,
 	dispatch,
 }) => {
-	console.log("Chat page is now mounted", Date.now());
 	const frndAddr = match.params.friendId;
 	const [showModal, setShowModal] = useState(false);
 	const [chatMsg, setChatMsg] = useState("");
@@ -30,7 +29,6 @@ const ChatPage = ({
 			let messages = (
 				await messageInstance.methods.get_user_friend_messages(frndAddr)
 			).decodedResult;
-			console.log(messages);
 			dispatch(addMessages(messages.reverse()));
 		})();
 	}, [frndAddr, messageInstance, dispatch]);
@@ -40,7 +38,6 @@ const ChatPage = ({
 		let messages = (
 			await messageInstance.methods.get_user_friend_messages(frndAddr)
 		).decodedResult;
-		console.log(messages);
 		dispatch(addMessages(messages.reverse()));
 	}, 5000);
 
@@ -110,7 +107,7 @@ const ChatPage = ({
 							viewBox="0 0 333 333"
 							width="35"
 							height="35"
-							fill="#1c1c24"
+							fill="#2a9cff"
 						>
 							<defs />
 							<path d="M121.7 63.8C101 84.5 94 92.1 94 93.9c0 1.8 12.9 15.2 54 56.2 30.9 30.9 54.7 53.9 55.7 53.9 2.3 0 34.7-32.3 33.6-33.5-.4-.4-.3-.5.3-.2s6.3-4.7 12.8-11.2c8.7-8.8 11.5-12.3 11-13.5-.5-1.2-1.4-1.6-2.8-1.2-1.1.3-2.5.6-2.9.6-.5 0-.6.4-.3.8.3.5-11.2 12.5-25.4 26.7l-26 26-9.1-9c-5-5-11.4-11.4-14.2-14.3-2.9-3.1-5.6-5.1-6.4-4.7-.9.3-1.1 0-.7-.6.4-.7-15.2-17-37-38.8L99 93.5l26-26 26-26 34 34c33 33 34 33.9 34 30.5 0-3.3-2.2-5.8-33.3-36.8C167.5 51 151.8 36 151 36c-.8 0-14 12.5-29.3 27.8z" />

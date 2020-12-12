@@ -20,7 +20,7 @@ const SendFund = ({ receiver, setShowModal, messageInstance }) => {
 		e.preventDefault();
 
 		if (!amount)
-      return setResponse("You can't send a value less than or equal zero (0)");
+      return setResponse("You can't send an empty value");
       
     let aettosValue = toAettos(amount);
     await messageInstance.methods.send_fund(receiver, description, { amount: aettosValue }).then((resp) => {
