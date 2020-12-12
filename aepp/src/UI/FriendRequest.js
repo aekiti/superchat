@@ -35,13 +35,13 @@ const FriendRequest = ({
 					friendInstance={friendInstance}
 				/>
 			)}
-			<button
+			{/* <button
 				type="button"
 				className={styles.floatBtn}
 				onClick={() => setShowModal(true)}
 			>
 				+
-			</button>
+			</button> */}
 		</motion.section>
 	);
 };
