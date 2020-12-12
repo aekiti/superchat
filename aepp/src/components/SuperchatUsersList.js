@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { motion } from "framer-motion";
 import { setFetchingUsers } from "../actions/actionCreator.js";
 import styles from "./SuperchatUsersList.module.scss";
 import logo from "../assets/logo/superhero.svg";
+import SearchResult from "./SearchResult.js";
 
 const SuperchatUsersList = ({
 	users,
@@ -13,8 +14,16 @@ const SuperchatUsersList = ({
 	friendRequests,
 	dispatch,
 }) => {
+	const [isSearching, setSearching] = useState(false);
+	const [query, setQuery] = useState("");
 	const runQuery = (query) => {
-		console.log(query);
+		if (!query) {
+			setSearching(false);
+			return false;
+		}
+
+		setQuery(query);
+		setSearching(true);
 	};
 
 	let filterOut = [userProfile.userAddress];
@@ -41,19 +50,30 @@ const SuperchatUsersList = ({
 					autoFocus={true}
 				/>
 			</header>
-			<br />
-			<h4>
-				{users.length} total users, {friends.length} friends,{" "}
-				{friendRequests.length} friends request
-			</h4>
-			{filteredUser.map((user) => (
-				<ProfilePanel
-					key={user[0]}
-					profile={user[1]}
+
+			{isSearching ? (
+				<SearchResult
+					filteredUser={filteredUser}
 					friendInstance={friendInstance}
 					dispatch={dispatch}
+					query={query}
 				/>
-			))}
+			) : (
+				<div>
+					<h4>
+						{users.length} total users, {friends.length} friends,{" "}
+						{friendRequests.length} friends request
+					</h4>
+					{filteredUser.map((user) => (
+						<ProfilePanel
+							key={user[0]}
+							profile={user[1]}
+							friendInstance={friendInstance}
+							dispatch={dispatch}
+						/>
+					))}
+				</div>
+			)}
 		</motion.section>
 	);
 };
