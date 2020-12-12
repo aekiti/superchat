@@ -23,13 +23,13 @@ const FrndReqList = ({ friendRequests, friendInstance, dispatch }) => {
 };
 
 const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
-  let imgLink;
-  if (profile.name === "false") profile.name = "";
-  if (profile.image === "false") {
-    imgLink = logo;
-  } else {
-    imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
-  }
+	let imgLink;
+	if (profile.name === "false" || !profile.name) profile.name = "";
+	if (profile.image === "false" || !profile.image) {
+		imgLink = logo;
+	} else {
+		imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
+	}
 
 	const rejectRequest = async () => {
 		// show spinner

@@ -88,27 +88,24 @@
 	background: $primaryColor;
 	color: $bgColor;
 }
-.btnSecondary {
-	background: transparent;
-	color: $primaryColor;
-}
 
 .roundBtn {
-  margin: 0.3rem;
+	margin: 0.3rem;
 	border: 2px solid $primaryColor;
 	border-radius: 50%;
-  font: icon;
-  font-size: xx-large;
-	height: 3rem;
-	width: 3rem;
+	font: icon;
+	font-size: xx-large;
+	height: 2.5rem;
+	width: 2.5rem;
 	background: transparent;
 	color: $primaryColor;
 	cursor: pointer;
 	transition: box-shadow 0.2s linear;
+	text-align: center;
 
 	&:hover {
-    background: $primaryColor;
-    color: #fff;
+		background: $primaryColor;
+		color: $bgColor;
 		box-shadow: 0 0 6px rgba($textColor, 0.5);
 	}
 }

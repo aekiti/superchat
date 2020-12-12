@@ -5,17 +5,27 @@ import { setFetchingUsers } from "../actions/actionCreator.js";
 import styles from "./SuperchatUsersList.module.scss";
 import logo from "../assets/logo/superhero.svg";
 
-const SuperchatUsersList = ({ users, friendInstance, friends, userProfile, dispatch, }) => {
-  let userFriends;
+const SuperchatUsersList = ({
+	users,
+	friendInstance,
+	friends,
+	userProfile,
+	friendRequests,
+	dispatch,
+}) => {
 	const runQuery = (query) => {
 		console.log(query);
-  };
-  for (let i = 0; i < friends.length; i++) {
-    userFriends = friends[i].owner;
-  }
-  const filteredUser = users.filter(
-    (users) => (users[0] !== userProfile.userAddress && users[0] !== userFriends)
-  );
+	};
+
+	let filterOut = [userProfile.userAddress];
+	let frnds = friends.reduce((acc, curr) => (acc = [...acc, curr.owner]), []);
+	const frndReqs = friendRequests.reduce(
+		(acc, curr) => (acc = [...acc, curr.owner]),
+		[]
+	);
+	filterOut = filterOut.concat(frnds, frndReqs);
+
+	const filteredUser = users.filter((user) => !filterOut.includes(user[0]));
 
 	return (
 		<motion.section className={styles.container}>
@@ -31,8 +41,11 @@ const SuperchatUsersList = ({ users, friendInstance, friends, userProfile, dispa
 					autoFocus={true}
 				/>
 			</header>
-      <br />
-      <h4>{users.length} total users, {friends.length} total friends</h4>
+			<br />
+			<h4>
+				{users.length} total users, {friends.length} friends,{" "}
+				{friendRequests.length} friends request
+			</h4>
 			{filteredUser.map((user) => (
 				<ProfilePanel
 					key={user[0]}
@@ -46,13 +59,13 @@ const SuperchatUsersList = ({ users, friendInstance, friends, userProfile, dispa
 };
 
 const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
-  let imgLink;
-  if (profile.name === "false") profile.name = "";
-  if (profile.image === "false") {
-    imgLink = logo;
-  } else {
-    imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
-  }
+	let imgLink;
+	if (profile.name === "false") profile.name = "";
+	if (profile.image === "false") {
+		imgLink = logo;
+	} else {
+		imgLink = `https://raendom-backend.z52da5wt.xyz${profile.image}`;
+	}
 
 	const sendRequest = async () => {
 		// show spinner
@@ -70,17 +83,16 @@ const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
 				<img alt={profile.name || "Fellow superhero"} src={imgLink} />
 			</figure>
 
-      <div className={styles.textArea}>
-        <h4 className={styles.username}>{profile.name || "Fellow superhero"}</h4>
-        <p className={styles.about}>{profile.owner}</p>
-      </div>
+			<div className={styles.textArea}>
+				<h4 className={styles.username}>
+					{profile.name || "Fellow superhero"}
+				</h4>
+				<p className={styles.about}>{profile.owner}</p>
+			</div>
 
 			<aside className={styles.btnBody}>
-				<button
-					className={styles.roundBtn}
-					onClick={() => sendRequest()}
-				>
-          +
+				<button className={styles.roundBtn} onClick={() => sendRequest()}>
+					+
 				</button>
 			</aside>
 		</section>
@@ -90,7 +102,8 @@ const ProfilePanel = ({ profile, friendInstance, dispatch }) => {
 const mapStateToProps = (state) => ({
 	users: state.users,
 	friendInstance: state.contractInstances.friendInstance,
-  friends: state.friends,
-  userProfile: state.userProfile,
+	friends: state.friends,
+	friendRequests: state.friendRequests,
+	userProfile: state.userProfile,
 });
 export default connect(mapStateToProps, null)(SuperchatUsersList);
