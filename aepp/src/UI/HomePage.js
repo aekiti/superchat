@@ -31,6 +31,7 @@ const ProfileBoard = ({ profile }) => {
   let { image, name, owner, about } = profile;
   let imgLink;
   if (name === "false") name = "";
+  if (about === "false") about = "";
   if (image === "false") {
     imgLink = logo;
   } else {
@@ -48,7 +49,7 @@ const ProfileBoard = ({ profile }) => {
 
 				<aside className={styles.textArea}>
 					<h4 className={styles.username}>{name || "Fellow superhero"}</h4>
-					<p className={styles.about}>{about}</p>
+					<p className={styles.about}>{about || owner}</p>
 				</aside>
 			</section>
 		</Link>
