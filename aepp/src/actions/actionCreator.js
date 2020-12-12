@@ -43,6 +43,12 @@ const addSuperchatUsers = (userList) => ({
 	payload: userList,
 });
 
+const addMessages = (messages) => ({ type: "ADD_MESSAGES", payload: messages });
+const updateMessages = (message) => ({
+	type: "UPDATE_MESSAGES",
+	payload: message,
+});
+
 const setFetchingMessages = () => ({
 	type: "SET_FETCHING_MESSAGES",
 });
@@ -68,14 +74,16 @@ export {
 	addSDK,
 	addUserProfile,
 	addUserImage,
-  addUserAddress,
-  addUserBalance,
-  addFriendRequests,
-  addFriends,
-  addSuperchatUsers,
+	addUserAddress,
+	addUserBalance,
+	addFriendRequests,
+	addFriends,
+	addSuperchatUsers,
+	addMessages,
+	updateMessages,
 	setFetchingMessages,
 	setFetchingProfile,
-  setFetchingFrndReq,
-  setFetchingFrnds,
-  setFetchingUsers,
+	setFetchingFrndReq,
+	setFetchingFrnds,
+	setFetchingUsers,
 };

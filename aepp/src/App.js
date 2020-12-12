@@ -35,7 +35,7 @@ const App = ({ state, dispatch }) => {
       getFriends(resp.contractInstances.friendInstance, dispatch);
 
       // Get user balance
-      getUserBalance(resp.sdk, resp.userAddress, dispatch)
+      getUserBalance(resp.sdk, resp.userAddress, dispatch);
       // Get user profile
       getUserProfile(
         resp.contractInstances.profileInstance,
@@ -45,7 +45,7 @@ const App = ({ state, dispatch }) => {
       // Get friend requests
       getFriendRequest(resp.contractInstances.friendInstance, dispatch);
       // Get Superchat users
-      getSuperchatUsers(resp.contractInstances.profileInstance, dispatch)
+      getSuperchatUsers(resp.contractInstances.profileInstance, dispatch);
     })();
   }, [dispatch]);
 

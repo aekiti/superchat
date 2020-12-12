@@ -5,21 +5,47 @@ import { motion } from "framer-motion";
 import styles from "./ChatPage.module.scss";
 import logo from "../assets/logo/superhero.svg";
 import SendFund from "../components/SendFund.js";
+import MessageBoard from "../components/MessageBoard.js";
+import { updateMessages, addMessages } from "../actions/actionCreator.js";
 
-const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
+const ChatPage = ({
+	isFetchingFrnds,
+	friends,
+	match,
+	messageInstance,
+	userAddress,
+	dispatch,
+}) => {
+	console.log("Chat page is now mounted", Date.now());
+	const frndAddr = match.params.friendId;
 	const [showModal, setShowModal] = useState(false);
 	const [chatMsg, setChatMsg] = useState("");
 	const frndProfile = friends.filter(
 		(frnd) => frnd.owner === match.params.friendId
 	);
 
-	useEffect();
+	useEffect(() => {
+		// Fetch messages onMount
+		(async () => {
+			let messages = (
+				await messageInstance.methods.get_user_friend_messages(frndAddr)
+			).decodedResult;
+			console.log(messages);
+			dispatch(addMessages(messages.reverse()));
+		})();
+	}, [frndAddr, messageInstance, dispatch]);
 
-	// Redirect to homepage if app is still loading
-	if (isFetchingFrnds) return <Redirect to="/" />;
+	// Fetch messages after every 5 seconds
+	setTimeout(async () => {
+		let messages = (
+			await messageInstance.methods.get_user_friend_messages(frndAddr)
+		).decodedResult;
+		console.log(messages);
+		dispatch(addMessages(messages.reverse()));
+	}, 5000);
 
-	// Redirect to homepage is friend profile is not found
-	// if (frndProfile.length < 1) return <Redirect to="/" />;
+	// Redirect to homepage if app is still loading or friend profile is not found
+	if (isFetchingFrnds || frndProfile.length < 1) return <Redirect to="/" />;
 
 	let profileImg;
 	if (frndProfile[0].name === "false") frndProfile[0].name = "";
@@ -37,7 +63,15 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 		e.preventDefault();
 		if (!chatMsg) return;
 
-		console.log("sending message..");
+		dispatch(
+			updateMessages({
+				amount: 0,
+				category: "message",
+				time: Date.now(),
+				sender: userAddress,
+				content: chatMsg,
+			})
+		);
 		await messageInstance.methods.send_message(frndProfile[0].owner, chatMsg);
 		setChatMsg("");
 	};
@@ -54,6 +88,8 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 				username={frndProfile[0].name || "Fellow superhero"}
 				address={frndProfile[0].owner}
 			/>
+
+			<MessageBoard />
 
 			<div className={styles.chatAction}>
 				<form
@@ -91,7 +127,8 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 						id="new-message"
 						className={styles.msgInput}
 						placeholder="Type a message"
-						onChange={(e) => setChatMsg(e)}
+						onChange={(e) => setChatMsg(e.target.value)}
+						value={chatMsg}
 					/>
 
 					<button
@@ -140,27 +177,10 @@ const ProfileBoard = ({ avatar, username, address }) => {
 	);
 };
 
-/*const ReceivedMsg = ({ text, time }) => {
-	return (
-		<div className={styles.receivedMsg}>
-			<p>{text}</p>
-			<p className={styles.time}>{time}</p>
-		</div>
-	);
-};
-
-const SentMsg = ({ text, time }) => {
-	return (
-		<div className={styles.sentMsg}>
-			<p>{text}</p>
-			<p className={styles.time}>{time}</p>
-		</div>
-	);
-};*/
-
 const mapStateToProps = (state) => ({
 	friends: state.friends,
 	isFetchingFrnds: state.isFetchingFrnds,
 	messageInstance: state.contractInstances.messageInstance,
+	userAddress: state.userProfile?.userAddress,
 });
 export default connect(mapStateToProps, null)(ChatPage);

@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 import styles from "./HomePage.module.scss";
 import Spinner from "../components/Spinner.js";
 import logo from "../assets/logo/superhero.svg";
-import getFriends from "../utils/getFriends.js";
 
 const HomePage = ({ friends, isFetchingFrnds }) => {
+	console.log("HomePage is now mounted");
 	if (isFetchingFrnds) return <Spinner message="Loading friends..." />;
 
 	if (friends.length < 1)
