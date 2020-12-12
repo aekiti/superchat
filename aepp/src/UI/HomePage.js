@@ -5,12 +5,17 @@ import { motion } from "framer-motion";
 import styles from "./HomePage.module.scss";
 import Spinner from "../components/Spinner.js";
 import logo from "../assets/logo/superhero.svg";
+import getFriends from "../utils/getFriends.js";
 
 const HomePage = ({ friends, isFetchingFrnds }) => {
 	if (isFetchingFrnds) return <Spinner message="Loading friends..." />;
 
 	if (friends.length < 1)
-		return <h2>You currently have no one to chat with. :(</h2>;
+		return (
+			<h2 style={{ padding: "2rem" }}>
+				You currently have no one to chat with. :(
+			</h2>
+		);
 
 	return (
 		<motion.section
@@ -28,22 +33,19 @@ const HomePage = ({ friends, isFetchingFrnds }) => {
 };
 
 const ProfileBoard = ({ profile }) => {
-  let { image, name, owner, about } = profile;
-  let imgLink;
-  if (name === "false") name = "";
-  if (image === "false") {
-    imgLink = logo;
-  } else {
-    imgLink = `https://raendom-backend.z52da5wt.xyz${image}`;
-  }
+	let { image, name, owner, about } = profile;
+	let imgLink;
+	if (name === "false") name = "";
+	if (image === "false") {
+		imgLink = logo;
+	} else {
+		imgLink = `https://raendom-backend.z52da5wt.xyz${image}`;
+	}
 	return (
 		<Link to={`/chat/${owner}`} className={styles.link}>
 			<section className={styles.body}>
 				<figure className={styles.avatar}>
-					<img
-						src={imgLink}
-						alt={name || "Fellow superhero"}
-					/>
+					<img src={imgLink} alt={name || "Fellow superhero"} />
 				</figure>
 
 				<aside className={styles.textArea}>

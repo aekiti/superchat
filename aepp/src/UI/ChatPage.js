@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { motion } from "framer-motion";
@@ -8,30 +8,38 @@ import SendFund from "../components/SendFund.js";
 
 const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 	const [showModal, setShowModal] = useState(false);
+	const [chatMsg, setChatMsg] = useState("");
 	const frndProfile = friends.filter(
 		(frnd) => frnd.owner === match.params.friendId
-  );
-  // Redirect to homepage is friend profile is not found
-  if (frndProfile.length < 1) return <Redirect to="/" />;
+	);
 
-  let profileImg;
-  if (frndProfile[0].name === "false") frndProfile[0].name = "";
-  if (frndProfile[0].image === "false") {
-    profileImg = logo;
-  } else {
-    profileImg = `https://raendom-backend.z52da5wt.xyz${frndProfile[0].image}`;
-  }
+	useEffect();
 
 	// Redirect to homepage if app is still loading
-  if (isFetchingFrnds) return <Redirect to="/" />;
+	if (isFetchingFrnds) return <Redirect to="/" />;
+
+	// Redirect to homepage is friend profile is not found
+	// if (frndProfile.length < 1) return <Redirect to="/" />;
+
+	let profileImg;
+	if (frndProfile[0].name === "false") frndProfile[0].name = "";
+	if (frndProfile[0].image === "false") {
+		profileImg = logo;
+	} else {
+		profileImg = `https://raendom-backend.z52da5wt.xyz${frndProfile[0].image}`;
+	}
 
 	const sendFund = () => {
 		setShowModal(!showModal);
 	};
 
-	const sendMessage = (e) => {
+	const sendMessage = async (e) => {
 		e.preventDefault();
+		if (!chatMsg) return;
+
 		console.log("sending message..");
+		await messageInstance.methods.send_message(frndProfile[0].owner, chatMsg);
+		setChatMsg("");
 	};
 
 	return (
@@ -41,7 +49,11 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 			exit={{ opacity: 0 }}
 			animate={{ opacity: 1, transition: { duration: 0.5 } }}
 		>
-			<ProfileBoard avatar={profileImg} username={frndProfile[0].name || "Fellow superhero"} address={frndProfile[0].owner} />
+			<ProfileBoard
+				avatar={profileImg}
+				username={frndProfile[0].name || "Fellow superhero"}
+				address={frndProfile[0].owner}
+			/>
 
 			<div className={styles.chatAction}>
 				<form
@@ -79,6 +91,7 @@ const ChatPage = ({ isFetchingFrnds, friends, match, messageInstance }) => {
 						id="new-message"
 						className={styles.msgInput}
 						placeholder="Type a message"
+						onChange={(e) => setChatMsg(e)}
 					/>
 
 					<button
@@ -119,10 +132,10 @@ const ProfileBoard = ({ avatar, username, address }) => {
 				<img src={avatar} alt={username} />
 			</figure>
 
-      <aside className={styles.textArea}>
-        <h4 className={styles.username}>{username || "Fellow superhero"}</h4>
-        <p className={styles.about}>{address}</p>
-      </aside>
+			<aside className={styles.textArea}>
+				<h4 className={styles.username}>{username || "Fellow superhero"}</h4>
+				<p className={styles.about}>{address}</p>
+			</aside>
 		</section>
 	);
 };
