@@ -33,7 +33,7 @@ const ReceivedMsg = ({ message: { amount, category, content, time } }) => {
 			animate={{ opacity: 1, transition: { duration: 0.2 } }}
 		>
 			{amount ? (
-				<p style={{ fontWeight: "800" }}>{toAe(amount)}AE sent</p>
+				<p style={{ fontWeight: "800" }}>{toAe(amount)}AE received</p>
 			) : null}
 			<p>{content}</p>
 			<p className={styles.time}>{parseTime(time)}</p>

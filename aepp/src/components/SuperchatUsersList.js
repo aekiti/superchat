@@ -61,8 +61,8 @@ const SuperchatUsersList = ({
 			) : (
 				<div>
 					<h4>
-						{users.length} total users, {friends.length} friends,{" "}
-						{friendRequests.length} friends request
+						{users.length} user{(users.length > 1) ? 's' : ''}, {friends.length} friend{(friends.length > 1) ? 's' : ''},{" "}
+						{friendRequests.length} friend request{(friendRequests.length > 1) ? 's' : ''}
 					</h4>
 					{filteredUser.map((user) => (
 						<ProfilePanel

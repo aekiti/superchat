@@ -16,7 +16,7 @@ const SearchResult = ({ query, filteredUser, friendInstance, dispatch }) => {
 			exit={{ opacity: 0 }}
 			animate={{ opacity: 1, transition: { duration: 0.2 } }}
 		>
-			<h2>Search results</h2>
+			<h2>{SearchResults.length} Search result{(SearchResults.length > 1) ? 's' : ''}</h2>
 			{SearchResults.length < 1 && <p>No results found!</p>}
 			{SearchResults.map((user) => (
 				<ProfilePanel
