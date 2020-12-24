@@ -1,20 +1,46 @@
 {
   "name": "superchat",
   "version": "1.0.0",
-  "description": "ækiti æmbassy Superhero chat project",
-  "repository": "github:aekiti/superchat",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha ./test/**/*.js --timeout 0 --exit",
-    "aetest": "aeproject test"
-  },
-  "author": "ækiti æmbassy",
   "license": "MIT",
+  "private": true,
+  "repository": "github:aekiti/superchat",
+  "description": "A defi chat æpp for the Superhero.com platform",
+  "homepage": "https://superchat.aekiti.com",
+  "author": "ækiti æmbassy <info@aekiti.com> (https://aekiti.com)",
   "dependencies": {
     "@aeternity/aepp-sdk": "^7.7.0",
-    "aeproject-lib": "^2.2.0",
-    "aeproject-logger": "^2.2.0",
-    "aeproject-utils": "^2.2.0",
-    "prompts": "^2.4.0"
+    "framer-motion": "^2.9.5",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.0.1",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "uuid": "^3.3.2"
+  },
+  "scripts": {
+    "start": "set PORT=8080 && react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "node-sass": "^4.14.1"
   }
 }

@@ -17,5 +17,5 @@ _Welcome superheroes! It is **awesome** to have you here! Before you start contr
 5. Create a new pull request from your forked repository.
 
 ## Resources
-- [AEproject](https://aeproject.gitbook.io/aeproject)
-- [Getting Started Tutorials](https://aeternity.com/documentation-hub/getting-started/hello-world-with-sophia)
+- [ReactJS](https://reactjs.org)
+- [Superhero Backend API](https://raendom-backend.z52da5wt.xyz/docs)

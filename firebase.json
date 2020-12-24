@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "aepp/build",
+    "public": "build",
     "cleanUrls": true,
     "ignore": [
       "firebase.json",
